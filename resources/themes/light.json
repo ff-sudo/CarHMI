@@ -1,0 +1,36 @@
+{
+    "name": "Light",
+    "app": {
+        "clearColor": [0.92, 0.92, 0.94, 1.0]
+    },
+    "panel": {
+        "backgroundColor": [1.0, 1.0, 1.0, 0.95]
+    },
+    "label": {
+        "textColor": [0.1, 0.1, 0.12, 1.0],
+        "titleColor": [0.1, 0.4, 0.7, 1.0],
+        "subtitleColor": [0.3, 0.5, 0.7, 1.0]
+    },
+    "button": {
+        "normalColor": [0.85, 0.85, 0.88, 1.0],
+        "hoverColor": [0.75, 0.80, 0.88, 1.0],
+        "pressColor": [0.65, 0.70, 0.78, 1.0],
+        "textColor": [0.1, 0.1, 0.12, 1.0],
+        "transitionTime": 0.15
+    },
+    "slider": {
+        "trackColor": [0.8, 0.8, 0.82, 1.0],
+        "fillColor": [0.2, 0.5, 0.85, 1.0],
+        "handleColor": [0.4, 0.4, 0.45, 1.0],
+        "handleActive": [0.2, 0.2, 0.25, 1.0],
+        "trackHeight": 6.0,
+        "handleWidth": 14.0,
+        "handleHeight": 22.0
+    },
+    "progressBar": {
+        "backgroundColor": [0.8, 0.8, 0.82, 1.0],
+        "fillColor": [0.2, 0.7, 0.4, 1.0],
+        "warningColor": [0.85, 0.65, 0.1, 1.0],
+        "dangerColor": [0.85, 0.2, 0.2, 1.0]
+    }
+}

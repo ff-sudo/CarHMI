@@ -1,0 +1,185 @@
+# 编译产物
+*.o
+*.obj
+*.exe
+*.out
+*.app
+
+# 静态库和动态库
+*.lib
+*.dll
+*.so
+*.dylib
+*.a
+*.dll.a
+
+# 可执行文件（常见命名）
+a.out
+a.exe
+
+# 调试和发布目录
+/Debug/
+/Release/
+/x64/
+/arm64/
+/build/
+/build-*/
+/cmake-build-*/
+/out/
+/bin/
+/obj/
+
+# IDE 文件
+## Visual Studio
+.vs/
+*.user
+*.suo
+*.sln.docstates
+*.vcxproj
+*.vcxproj.filters
+*.vcxproj.user
+
+## CLion
+.idea/
+cmake-build-*/
+
+## CodeBlocks
+*.cbp
+*.depend
+*.layout
+*.workspace
+*.cbTemp
+
+## Qt Creator
+*.user
+*.creator
+*.files
+*.includes
+*.config
+
+## Eclipse
+.cproject
+.project
+.settings/
+.classpath
+
+## VSCode
+.vscode/
+*.code-workspace
+
+## Xcode
+*.xcodeproj/
+*.xcworkspace/
+*.xccheckout
+xcuserdata/
+*.xctest
+DerivedData/
+
+## CLion
+.idea/
+cmake-build-*/
+
+## KDevelop
+*.kdev4
+
+## Sublime Text
+*.sublime-*
+
+## CLion
+.idea/
+cmake-build-*/
+
+# 备份和临时文件
+*~
+*.swp
+*.swo
+*.bak
+*.backup
+*.tmp
+*.temp
+*.cache
+*.log
+
+# 编译生成的依赖文件
+*.d
+*.dep
+*.mod
+*.mod.c
+*.i
+*.ii
+*.s
+*.asm
+
+# CMake 生成文件
+CMakeCache.txt
+CMakeFiles/
+cmake_install.cmake
+Makefile
+CMakeUserPresets.json
+CTestTestfile.cmake
+
+# Makefile 生成文件（如果不是手写的）
+/Makefile
+*.makefile
+
+# 编译生成的中间文件
+*.ilk
+*.pdb
+*.idb
+*.pch
+*.ncb
+*.opt
+*.plg
+*.exp
+*.manifest
+*.res
+*.resx
+
+# 打包文件
+*.zip
+*.tar
+*.tar.gz
+*.tgz
+*.7z
+*.rar
+
+# 性能分析文件
+*.prof
+*.gcda
+*.gcno
+*.gcov
+gmon.out
+
+# Valgrind 输出
+valgrind.out
+*.valgrind
+
+# Doxygen 生成文档
+doc/html/
+doc/latex/
+docs/html/
+docs/latex/
+
+# 测试覆盖率
+*.coverage
+coverage/
+*.info
+
+# 调试符号
+*.dSYM/
+*.debug
+
+# 交叉编译相关
+*-stripped
+*-unstripped
+
+# 其他
+*.prereqs
+*.dirstamp
+*.marker
+compile_commands.json
+.vagrant/
+.env
+.env.*
+*.patch
+*.diff

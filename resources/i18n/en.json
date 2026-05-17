@@ -1,0 +1,28 @@
+{
+    "name": "English",
+    "direction": "ltr",
+    "strings": {
+        "app.title": "CarHMI Dashboard",
+        "speed.label": "Speed: %0 km/h",
+        "speed.zero": "Speed: 0 km/h",
+        "fuel.label": "Fuel: %0%%",
+        "fuel.default": "Fuel: 75%",
+        "status.ready": "Status: Ready",
+        "status.reset": "Status: Reset",
+        "btn.settings": "Settings",
+        "btn.widgets": "Widgets",
+        "btn.reset": "Reset",
+        "btn.back": "< Back",
+        "settings.title": "Settings",
+        "settings.brightness": "Brightness: %0%%",
+        "settings.volume": "Volume: %0%%",
+        "showcase.speedometer": "Speedometer",
+        "showcase.volume": "Volume",
+        "showcase.stations": "Stations",
+        "tab.media": "Media",
+        "tab.phone": "Phone",
+        "tab.nav": "Nav",
+        "toggle.ac": "A/C",
+        "toggle.lights": "Lights"
+    }
+}

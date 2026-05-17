@@ -1,0 +1,28 @@
+{
+    "name": "العربية",
+    "direction": "rtl",
+    "strings": {
+        "app.title": "لوحة القيادة",
+        "speed.label": "السرعة: %0 كم/س",
+        "speed.zero": "السرعة: 0 كم/س",
+        "fuel.label": "الوقود: %0%%",
+        "fuel.default": "الوقود: 75%",
+        "status.ready": "الحالة: جاهز",
+        "status.reset": "الحالة: إعادة تعيين",
+        "btn.settings": "الإعدادات",
+        "btn.widgets": "العناصر",
+        "btn.reset": "إعادة تعيين",
+        "btn.back": "رجوع >",
+        "settings.title": "الإعدادات",
+        "settings.brightness": "السطوع: %0%%",
+        "settings.volume": "الصوت: %0%%",
+        "showcase.speedometer": "عداد السرعة",
+        "showcase.volume": "الصوت",
+        "showcase.stations": "المحطات",
+        "tab.media": "الوسائط",
+        "tab.phone": "الهاتف",
+        "tab.nav": "الملاحة",
+        "toggle.ac": "التكييف",
+        "toggle.lights": "الأضواء"
+    }
+}
