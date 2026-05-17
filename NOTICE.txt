@@ -1,0 +1,5 @@
+NOTICE
+
+This project is AI-assisted, for learning and experimental purposes only.
+
+本项目由AI辅助生成，仅用于自身的学习和实验使用。
