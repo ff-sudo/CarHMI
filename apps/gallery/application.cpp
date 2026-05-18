@@ -1,5 +1,6 @@
 #include "application.h"
 #include <core/animation/animation_manager.h>
+#include <core/resource_manager.h>
 #include <gui/style/theme_manager.h>
 #include <gui/focus_manager.h>
 #include <core/event_bus.h>
@@ -36,6 +37,14 @@ void Application::Run() {
         spdlog::error("Failed to init renderer");
         return;
     }
+
+    // Register resource loaders
+    Core::ResourceManager::Get().RegisterLoader<RHI::Texture2D>(
+        [](const std::string& path) {
+            auto tex = std::make_shared<RHI::Texture2D>();
+            if (!tex->LoadFromFile(path)) return std::shared_ptr<RHI::Texture2D>(nullptr);
+            return tex;
+        });
 
     m_font.LoadFromFile("resources/fonts/arial.ttf", 24.0f);
 
