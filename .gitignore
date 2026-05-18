@@ -5,6 +5,9 @@
 *.out
 *.app
 
+# 3D 资产例外（.obj 是 Wavefront 3D 模型格式）
+!resources/**/*.obj
+
 # 静态库和动态库
 *.lib
 *.dll
