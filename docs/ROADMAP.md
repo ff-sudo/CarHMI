@@ -21,6 +21,9 @@
 | 1.5 | TextInput 控件 | GUI | P1 |
 | 1.6 | ImageView 控件（支持背景图） | GUI | P2 |
 | 1.7 | Dialog/Toast 弹窗系统 | GUI | P2 |
+| 1.8 | 定时器/调度器（setTimeout/setInterval 语义） | Core | P1 |
+| 1.9 | 布局增强：Margin/Padding 统一模型 + 百分比尺寸 | GUI | P1 |
+| 1.10 | Canvas 自绘 API 基础版（DrawRoundRect/DrawPath） | RHI/GUI | P1 |
 
 **交付物**：Gallery 中有一个"控件全景 Demo"展示所有控件，中文正常显示。
 
@@ -37,6 +40,7 @@
 | 2.3 | DataModel 抽象（key-value 数据源） | Runtime | P1 |
 | 2.4 | 模拟数据源（用于开发测试） | Runtime | P1 |
 | 2.5 | DataModel → Widget 属性自动绑定 | Runtime | P1 |
+| 2.6 | 状态机（页面导航 + 条件跳转） | Runtime | P1 |
 
 **交付物**：Gallery 中有一个"JSON 加载 Demo"，修改 JSON 即可改变 UI。
 
