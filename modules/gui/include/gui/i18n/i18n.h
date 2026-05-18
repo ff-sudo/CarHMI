@@ -15,6 +15,7 @@ enum class LayoutDirection { LTR, RTL };
 struct LanguageChangedEvent {
     const char* languageCode;
     LayoutDirection direction;
+    const char* fontPath;
 };
 
 class I18n {
@@ -36,6 +37,7 @@ public:
             LanguageData data;
             data.code = code;
             data.name = root.value("name", code);
+            data.fontPath = root.value("font", "");
             data.direction = root.value("direction", "ltr") == "rtl"
                 ? LayoutDirection::RTL : LayoutDirection::LTR;
 
@@ -65,7 +67,7 @@ public:
         m_activeCode = code;
         m_activeData = &it->second;
         spdlog::info("I18n: language set to '{}' ({})", code, m_activeData->name);
-        Core::EventBus::Get().Post(LanguageChangedEvent{m_activeCode.c_str(), m_activeData->direction});
+        Core::EventBus::Get().Post(LanguageChangedEvent{m_activeCode.c_str(), m_activeData->direction, m_activeData->fontPath.c_str()});
     }
 
     const std::string& T(const std::string& key) const {
@@ -82,6 +84,10 @@ public:
         return m_activeData ? m_activeData->direction : LayoutDirection::LTR;
     }
     bool IsRTL() const { return GetDirection() == LayoutDirection::RTL; }
+    const std::string& GetFontPath() const {
+        static const std::string empty;
+        return m_activeData ? m_activeData->fontPath : empty;
+    }
 
     std::vector<std::string> GetLanguageCodes() const {
         std::vector<std::string> codes;
@@ -95,6 +101,7 @@ private:
     struct LanguageData {
         std::string code;
         std::string name;
+        std::string fontPath;
         LayoutDirection direction = LayoutDirection::LTR;
         std::unordered_map<std::string, std::string> strings;
     };

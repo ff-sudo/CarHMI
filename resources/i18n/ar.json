@@ -1,6 +1,7 @@
 {
     "name": "العربية",
     "direction": "rtl",
+    "font": "resources/fonts/tahoma.ttf",
     "strings": {
         "app.title": "لوحة القيادة",
         "speed.label": "السرعة: %0 كم/س",

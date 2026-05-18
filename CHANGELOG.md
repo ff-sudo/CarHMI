@@ -7,6 +7,22 @@
 
 ---
 
+## [0.2.2] - 2026-05-19
+
+### Added
+- **语言-字体映射**：I18n 语言 JSON 支持 `"font"` 字段，切语言时自动切换字体
+- **Label.SetI18nKey() / Button.SetI18nKey()**：绑定翻译 key，切语言自动刷新文本
+- **LanguageChangedEvent.fontPath**：事件携带字体路径信息
+
+### Fixed
+- 修复中文/阿拉伯文字体不显示（根因：默认 arial.ttf 不含非拉丁字形）
+- 修复切语言后 Widget 文本不更新（Label/Button 未订阅 LanguageChangedEvent）
+
+### Changed
+- 阿拉伯语使用 tahoma.ttf（含阿拉伯字形），中文使用 msyh.ttc
+
+---
+
 ## [0.2.1] - 2026-05-18
 
 ### Added

@@ -2,9 +2,12 @@
 
 #include <gui/widget.h>
 #include <gui/style/theme_manager.h>
+#include <gui/i18n/i18n.h>
 #include <core/animation/animation_manager.h>
 #include <core/animation/tween.h>
 #include <core/animation/easing.h>
+#include <core/event_bus.h>
+#include <core/connection.h>
 #include <spdlog/spdlog.h>
 #include <string>
 #include <functional>
@@ -18,6 +21,19 @@ public:
         m_focusable = true;
         m_propText = m_props.Register<std::string>("text", text);
         ApplyTheme();
+    }
+
+    void SetI18nKey(const std::string& key) {
+        m_i18nKey = key;
+        m_propText->Set(I18n::Get().T(key));
+        if (!m_langSubscribed) {
+            m_langSubscribed = true;
+            m_langConnection = Core::EventBus::Get().Subscribe<LanguageChangedEvent>(
+                [this](const LanguageChangedEvent&) {
+                    if (!m_i18nKey.empty())
+                        m_propText->Set(I18n::Get().T(m_i18nKey));
+                });
+        }
     }
 
     void ApplyTheme() override {
@@ -85,7 +101,7 @@ public:
 
     Property<std::string>& TextProperty() { return *m_propText; }
     void SetOnClick(std::function<void()> cb) { m_onClick = std::move(cb); }
-    void SetText(const std::string& t) { m_propText->Set(t); }
+    void SetText(const std::string& t) { m_i18nKey.clear(); m_propText->Set(t); }
 
 private:
     enum class State { Normal, Hovered, Pressed };
@@ -98,6 +114,10 @@ private:
     glm::vec4 m_currentColor;
     glm::vec4 m_textColor;
     float m_transitionTime = 0.15f;
+
+    std::string m_i18nKey;
+    Core::Connection m_langConnection;
+    bool m_langSubscribed = false;
 };
 
 } // namespace CarHMI::GUI

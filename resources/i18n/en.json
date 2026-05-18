@@ -1,6 +1,7 @@
 {
     "name": "English",
     "direction": "ltr",
+    "font": "resources/fonts/arial.ttf",
     "strings": {
         "app.title": "CarHMI Dashboard",
         "speed.label": "Speed: %0 km/h",

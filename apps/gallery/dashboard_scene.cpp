@@ -28,15 +28,18 @@ void DashboardScene::OnEnter() {
 
     auto* title = new Label(2, {0, 0}, i.T("app.title"), Label::Role::Title);
     title->SetSize({360, 30});
+    title->SetI18nKey("app.title");
 
     m_speedLabel = new Label(3, {0, 0}, i.T("speed.zero"));
     m_speedLabel->SetSize({360, 25});
+    m_speedLabel->SetI18nKey("speed.zero");
 
     m_speedSlider = new Slider(4, {0, 0}, {360, 30}, 0.0f, 240.0f);
     m_speedBar = new ProgressBar(5, {0, 0}, {360, 25});
 
     auto* fuelLabel = new Label(6, {0, 0}, i.T("fuel.default"));
     fuelLabel->SetSize({360, 25});
+    fuelLabel->SetI18nKey("fuel.default");
 
     auto* fuelSlider = new Slider(11, {0, 0}, {360, 30}, 0.0f, 100.0f);
     fuelSlider->SetValue(75.0f);
@@ -48,11 +51,13 @@ void DashboardScene::OnEnter() {
     auto* btnRow = new HBoxLayout(20, {0, 0}, {360, 45}, 0, 4);
 
     auto* settingsBtn = new Button(8, {0, 0}, {83, 45}, i.T("btn.settings"));
+    settingsBtn->SetI18nKey("btn.settings");
     settingsBtn->SetOnClick([]() {
         Application::Get().GetSceneManager().Push(std::make_unique<SettingsScene>());
     });
 
     auto* widgetsBtn = new Button(12, {0, 0}, {83, 45}, i.T("btn.widgets"));
+    widgetsBtn->SetI18nKey("btn.widgets");
     widgetsBtn->SetOnClick([]() {
         Application::Get().GetSceneManager().Push(std::make_unique<WidgetShowcaseScene>());
     });
@@ -63,6 +68,7 @@ void DashboardScene::OnEnter() {
     });
 
     auto* resetBtn = new Button(9, {0, 0}, {83, 45}, i.T("btn.reset"));
+    resetBtn->SetI18nKey("btn.reset");
 
     btnRow->AddChild(settingsBtn);
     btnRow->AddChild(widgetsBtn);
@@ -71,6 +77,7 @@ void DashboardScene::OnEnter() {
 
     m_statusLabel = new Label(10, {0, 0}, i.T("status.ready"), Label::Role::Subtitle);
     m_statusLabel->SetSize({360, 25});
+    m_statusLabel->SetI18nKey("status.ready");
 
     // Data bindings: slider value -> label text + progress bar
     auto& bm = BindingManager::Get();

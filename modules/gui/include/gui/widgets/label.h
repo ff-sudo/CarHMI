@@ -2,6 +2,9 @@
 
 #include <gui/widget.h>
 #include <gui/style/theme_manager.h>
+#include <gui/i18n/i18n.h>
+#include <core/event_bus.h>
+#include <core/connection.h>
 #include <string>
 
 namespace CarHMI::GUI {
@@ -21,6 +24,19 @@ public:
         m_propText = m_props.Register<std::string>("text", text);
     }
 
+    void SetI18nKey(const std::string& key) {
+        m_i18nKey = key;
+        m_propText->Set(I18n::Get().T(key));
+        if (!m_langSubscribed) {
+            m_langSubscribed = true;
+            m_langConnection = Core::EventBus::Get().Subscribe<LanguageChangedEvent>(
+                [this](const LanguageChangedEvent&) {
+                    if (!m_i18nKey.empty())
+                        m_propText->Set(I18n::Get().T(m_i18nKey));
+                });
+        }
+    }
+
     void ApplyTheme() override {
         auto& s = ThemeManager::Get().GetTheme().label;
         switch (m_role) {
@@ -38,7 +54,7 @@ public:
     }
 
     Property<std::string>& TextProperty() { return *m_propText; }
-    void SetText(const std::string& t) { m_propText->Set(t); }
+    void SetText(const std::string& t) { m_i18nKey.clear(); m_propText->Set(t); }
     void SetColor(const glm::vec4& c) { m_color = c; m_role = Role::Custom; }
     void SetRole(Role r) { m_role = r; ApplyTheme(); }
     const std::string& GetText() const { return m_propText->Get(); }
@@ -47,6 +63,9 @@ private:
     Property<std::string>* m_propText;
     glm::vec4 m_color = {1, 1, 1, 1};
     Role m_role;
+    std::string m_i18nKey;
+    Core::Connection m_langConnection;
+    bool m_langSubscribed = false;
 };
 
 } // namespace CarHMI::GUI

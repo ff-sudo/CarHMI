@@ -1,6 +1,7 @@
 {
     "name": "简体中文",
     "direction": "ltr",
+    "font": "resources/fonts/msyh.ttc",
     "strings": {
         "app.title": "车机仪表盘",
         "speed.label": "速度: %0 km/h",

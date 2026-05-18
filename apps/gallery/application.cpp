@@ -3,6 +3,7 @@
 #include <core/resource_manager.h>
 #include <gui/style/theme_manager.h>
 #include <gui/focus_manager.h>
+#include <gui/i18n/i18n.h>
 #include <core/event_bus.h>
 #include <core/scene/scene_manager.h>
 #include <pal/sdl2_factory.h>
@@ -59,6 +60,13 @@ void Application::Run() {
     m_connections.Add(Core::EventBus::Get().Subscribe<Core::WindowCloseEvent>(
         [this](const Core::WindowCloseEvent&) {
             m_running = false;
+        }));
+
+    m_connections.Add(Core::EventBus::Get().Subscribe<GUI::LanguageChangedEvent>(
+        [this](const GUI::LanguageChangedEvent& e) {
+            if (e.fontPath && e.fontPath[0] != '\0') {
+                ReloadFont(e.fontPath, 24.0f);
+            }
         }));
 
     OnInit();
