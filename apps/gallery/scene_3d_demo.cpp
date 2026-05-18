@@ -27,15 +27,15 @@ void Scene3DDemo::OnEnter() {
     m_camera.SetDistance(m_mesh.GetBoundingRadius() * 2.5f);
 
     // Subscribe to mouse events for camera control
-    EventBus::Get().subscribe<MouseButtonEvent>([this](const MouseButtonEvent& e) {
+    m_connections.Add(EventBus::Get().Subscribe<MouseButtonEvent>([this](const MouseButtonEvent& e) {
         if (e.button == MouseButton::Left) {
             m_dragging = e.pressed;
             m_lastMouseX = e.x;
             m_lastMouseY = e.y;
         }
-    });
+    }));
 
-    EventBus::Get().subscribe<MouseMoveEvent>([this](const MouseMoveEvent& e) {
+    m_connections.Add(EventBus::Get().Subscribe<MouseMoveEvent>([this](const MouseMoveEvent& e) {
         if (m_dragging) {
             float dx = e.x - m_lastMouseX;
             float dy = e.y - m_lastMouseY;
@@ -43,11 +43,11 @@ void Scene3DDemo::OnEnter() {
             m_lastMouseX = e.x;
             m_lastMouseY = e.y;
         }
-    });
+    }));
 
-    EventBus::Get().subscribe<MouseScrollEvent>([this](const MouseScrollEvent& e) {
+    m_connections.Add(EventBus::Get().Subscribe<MouseScrollEvent>([this](const MouseScrollEvent& e) {
         m_camera.Zoom(e.yOffset);
-    });
+    }));
 }
 
 void Scene3DDemo::OnExit() {

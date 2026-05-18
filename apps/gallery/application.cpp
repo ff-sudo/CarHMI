@@ -47,9 +47,10 @@ void Application::Run() {
 
     m_sceneManager = std::make_unique<Core::SceneManager>();
 
-    Core::EventBus::Get().Subscribe<Core::WindowCloseEvent>([this](const Core::WindowCloseEvent&) {
-        m_running = false;
-    });
+    m_connections.Add(Core::EventBus::Get().Subscribe<Core::WindowCloseEvent>(
+        [this](const Core::WindowCloseEvent&) {
+            m_running = false;
+        }));
 
     OnInit();
 
@@ -130,9 +131,10 @@ void Application::InitImGui() {
     ImGui_ImplSDL2_InitForOpenGL(window, ctx);
     ImGui_ImplOpenGL3_Init("#version 330");
 
-    Core::EventBus::Get().Subscribe<Core::SDLRawEvent>([](const Core::SDLRawEvent& e) {
-        ImGui_ImplSDL2_ProcessEvent(e.event);
-    });
+    m_connections.Add(Core::EventBus::Get().Subscribe<Core::SDLRawEvent>(
+        [](const Core::SDLRawEvent& e) {
+            ImGui_ImplSDL2_ProcessEvent(e.event);
+        }));
 }
 
 void Application::ShutdownImGui() {

@@ -2,6 +2,7 @@
 
 #include <pal/platform.h>
 #include <core/event.h>
+#include <core/connection.h>
 #include <rhi/batch_renderer2d.h>
 #include <rhi/font.h>
 #include <gui/ui_context.h>
@@ -47,6 +48,7 @@ private:
     PAL::WindowConfig m_config;
     bool m_running = false;
     int m_frameCount = 0;
+    Core::ConnectionGroup m_connections;
 };
 
 } // namespace CarHMI::Gallery

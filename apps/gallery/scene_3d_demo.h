@@ -1,6 +1,7 @@
 #pragma once
 
 #include <core/scene/scene.h>
+#include <core/connection.h>
 #include <renderer3d/renderer3d.h>
 #include <renderer3d/camera.h>
 #include <renderer3d/mesh.h>
@@ -29,6 +30,8 @@ private:
     float m_lightAngle = 0.0f;
     bool m_autoRotateLight = true;
     glm::vec3 m_lightPos = {50, 80, 50};
+
+    Core::ConnectionGroup m_connections;
 };
 
 } // namespace CarHMI::Gallery
