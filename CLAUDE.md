@@ -68,8 +68,7 @@ speed.SetFromThread(120.0f); // 线程安全
 
 ## 已知问题
 
-- 中文/阿拉伯文字体渲染不显示（stbtt 字形加载问题）
-- LanguageChangedEvent 未被 Widget 订阅（语言切换需重进 Scene）
+- LanguageChangedEvent 未被所有 Widget 订阅（仅 DashboardScene 的 Label/Button 接入了 i18n key，其他页面需手动接入）
 
 ## 第三方依赖
 
