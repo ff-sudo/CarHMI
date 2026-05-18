@@ -7,6 +7,32 @@
 
 ---
 
+## [0.2.1] - 2026-05-18
+
+### Added
+- **Connection 类**（RAII）：析构自动断开事件订阅/属性回调
+- **ConnectionGroup**：批量管理多个 Connection
+- **EventBus.PostDeferred()**：线程安全延迟投递，下一帧主线程分发
+- **EventBus.FlushDeferred()**：主循环每帧 flush 延迟队列
+- **Property.SetDeferred()**：脏标记模式，帧末批量通知
+- **Property.SetFromThread()**：线程安全写入（mutex 保护）
+- **Property 循环检测**：A→B→A 通知链自动截断
+- **BidirectionalBinding**：双向绑定 + 循环防护
+- **BindingScope**：作用域绑定，析构自动解除
+- **ResourceManager**：统一资源加载 + 缓存 + 引用计数
+
+### Changed
+- EventBus.Subscribe() 返回 Connection（旧 subscribe 保留为兼容别名）
+- Property.OnChanged() 返回 Connection（不再返回 int）
+- Widget/FocusManager/UIContext 改用 ConnectionGroup 管理事件订阅
+
+### Fixed
+- ImGui 调试面板无法点击（Connection RAII 导致订阅立即断开）
+- 3D 场景鼠标拖拽失效（同上原因）
+版本号遵循 [语义化版本](https://semver.org/lang/zh-CN/)。
+
+---
+
 ## [0.2.0] - 2026-05-18
 
 ### Changed
