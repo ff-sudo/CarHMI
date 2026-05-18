@@ -36,7 +36,7 @@ public:
         m_activeThemeName = name;
         m_activeTheme = &it->second;
         spdlog::info("ThemeManager: active theme set to '{}'", name);
-        Core::EventBus::Get().post(Core::ThemeChangedEvent{m_activeThemeName.c_str()});
+        Core::EventBus::Get().Post(Core::ThemeChangedEvent{m_activeThemeName.c_str()});
     }
 
     const Theme& GetTheme() const { return *m_activeTheme; }
@@ -52,7 +52,7 @@ public:
 
                 if (name == m_activeThemeName) {
                     m_activeTheme = &m_themes[name];
-                    Core::EventBus::Get().post(Core::ThemeChangedEvent{m_activeThemeName.c_str()});
+                    Core::EventBus::Get().Post(Core::ThemeChangedEvent{m_activeThemeName.c_str()});
                 }
             }
         }

@@ -69,40 +69,40 @@ void SDL2Platform::PollEvents() {
 
     SDL_Event sdlEvent;
     while (SDL_PollEvent(&sdlEvent)) {
-        EventBus::Get().post(SDLRawEvent{&sdlEvent});
+        EventBus::Get().Post(SDLRawEvent{&sdlEvent});
 
         switch (sdlEvent.type) {
         case SDL_QUIT:
             m_shouldClose = true;
-            EventBus::Get().post(WindowCloseEvent{});
+            EventBus::Get().Post(WindowCloseEvent{});
             break;
         case SDL_WINDOWEVENT:
             if (sdlEvent.window.event == SDL_WINDOWEVENT_CLOSE)
                 m_shouldClose = true;
             if (sdlEvent.window.event == SDL_WINDOWEVENT_RESIZED)
-                EventBus::Get().post(WindowResizeEvent{sdlEvent.window.data1, sdlEvent.window.data2});
+                EventBus::Get().Post(WindowResizeEvent{sdlEvent.window.data1, sdlEvent.window.data2});
             break;
         case SDL_MOUSEMOTION:
-            EventBus::Get().post(MouseMoveEvent{(float)sdlEvent.motion.x, (float)sdlEvent.motion.y});
+            EventBus::Get().Post(MouseMoveEvent{(float)sdlEvent.motion.x, (float)sdlEvent.motion.y});
             break;
         case SDL_MOUSEBUTTONDOWN:
             if (sdlEvent.button.button == SDL_BUTTON_LEFT)
-                EventBus::Get().post(MouseButtonEvent{MouseButton::Left, true,
+                EventBus::Get().Post(MouseButtonEvent{MouseButton::Left, true,
                     (float)sdlEvent.button.x, (float)sdlEvent.button.y});
             break;
         case SDL_MOUSEBUTTONUP:
             if (sdlEvent.button.button == SDL_BUTTON_LEFT)
-                EventBus::Get().post(MouseButtonEvent{MouseButton::Left, false,
+                EventBus::Get().Post(MouseButtonEvent{MouseButton::Left, false,
                     (float)sdlEvent.button.x, (float)sdlEvent.button.y});
             break;
         case SDL_KEYDOWN:
-            EventBus::Get().post(KeyEvent{sdlEvent.key.keysym.scancode, true});
+            EventBus::Get().Post(KeyEvent{sdlEvent.key.keysym.scancode, true});
             break;
         case SDL_KEYUP:
-            EventBus::Get().post(KeyEvent{sdlEvent.key.keysym.scancode, false});
+            EventBus::Get().Post(KeyEvent{sdlEvent.key.keysym.scancode, false});
             break;
         case SDL_MOUSEWHEEL:
-            EventBus::Get().post(MouseScrollEvent{(float)sdlEvent.wheel.x, (float)sdlEvent.wheel.y});
+            EventBus::Get().Post(MouseScrollEvent{(float)sdlEvent.wheel.x, (float)sdlEvent.wheel.y});
             break;
         }
     }

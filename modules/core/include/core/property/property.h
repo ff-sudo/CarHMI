@@ -1,8 +1,10 @@
 #pragma once
 
 #include "property_base.h"
+#include <core/connection.h>
 #include <functional>
 #include <vector>
+#include <mutex>
 #include <sstream>
 #include <glm/glm.hpp>
 
@@ -26,15 +28,50 @@ public:
         NotifyChanged(old, m_value);
     }
 
+    void SetDeferred(const T& value) {
+        if (!m_dirty) m_oldValueForFlush = m_value;
+        m_value = value;
+        m_dirty = true;
+    }
+
+    void SetFromThread(const T& value) {
+        std::lock_guard<std::mutex> lock(m_threadMutex);
+        m_pendingValue = value;
+        m_hasPending = true;
+    }
+
+    bool IsDirty() const { return m_dirty; }
+
+    void Flush() {
+        // Apply thread-safe pending value
+        {
+            std::lock_guard<std::mutex> lock(m_threadMutex);
+            if (m_hasPending) {
+                if (!m_dirty) m_oldValueForFlush = m_value;
+                m_value = m_pendingValue;
+                m_dirty = true;
+                m_hasPending = false;
+            }
+        }
+
+        if (!m_dirty) return;
+        m_dirty = false;
+        if (!(m_value == m_oldValueForFlush))
+            NotifyChanged(m_oldValueForFlush, m_value);
+    }
+
     Property& operator=(const T& value) { Set(value); return *this; }
 
     T* Ptr() { return &m_value; }
     const T* Ptr() const { return &m_value; }
 
-    int OnChanged(ChangedCallback cb) {
+    Connection OnChanged(ChangedCallback cb) {
         int id = m_nextId++;
         m_callbacks.push_back({id, std::move(cb)});
-        return id;
+        int capturedId = id;
+        return Connection([this, capturedId]() {
+            RemoveCallback(capturedId);
+        });
     }
 
     void RemoveCallback(int id) {
@@ -55,8 +92,11 @@ public:
 
 private:
     void NotifyChanged(const T& oldVal, const T& newVal) {
+        if (m_notifying) return;
+        m_notifying = true;
         for (auto& entry : m_callbacks)
             entry.cb(oldVal, newVal);
+        m_notifying = false;
     }
 
     std::string ToStringImpl() const {
@@ -79,6 +119,16 @@ private:
     T m_value;
     std::vector<CallbackEntry> m_callbacks;
     int m_nextId = 1;
+    bool m_notifying = false;
+
+    // Deferred / dirty tracking
+    bool m_dirty = false;
+    T m_oldValueForFlush{};
+
+    // Thread-safe pending value
+    mutable std::mutex m_threadMutex;
+    T m_pendingValue{};
+    bool m_hasPending = false;
 };
 
 inline bool operator==(const glm::vec4& a, const glm::vec4& b) {

@@ -41,8 +41,8 @@ private:
     int m_focusIndex = -1;
     bool m_initialized = false;
 
-    Core::SubscriptionHandle m_keySub;
-    Core::SubscriptionHandle m_scrollSub;
+    Core::Connection m_keySub;
+    Core::Connection m_scrollSub;
 };
 
 } // namespace CarHMI::GUI

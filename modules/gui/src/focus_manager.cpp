@@ -8,7 +8,7 @@ void FocusManager::Init() {
     if (m_initialized) return;
     m_initialized = true;
 
-    m_keySub = Core::EventBus::Get().subscribe<Core::KeyEvent>([this](const Core::KeyEvent& e) {
+    m_keySub = Core::EventBus::Get().Subscribe<Core::KeyEvent>([this](const Core::KeyEvent& e) {
         if (!e.pressed) return;
 
         switch (e.scancode) {
@@ -30,7 +30,7 @@ void FocusManager::Init() {
         }
     });
 
-    m_scrollSub = Core::EventBus::Get().subscribe<Core::MouseScrollEvent>([this](const Core::MouseScrollEvent& e) {
+    m_scrollSub = Core::EventBus::Get().Subscribe<Core::MouseScrollEvent>([this](const Core::MouseScrollEvent& e) {
         if (m_focusIndex >= 0)
             AdjustFocusedValue(e.yOffset);
     });

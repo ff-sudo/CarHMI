@@ -47,7 +47,7 @@ void Application::Run() {
 
     m_sceneManager = std::make_unique<Core::SceneManager>();
 
-    Core::EventBus::Get().subscribe<Core::WindowCloseEvent>([this](const Core::WindowCloseEvent&) {
+    Core::EventBus::Get().Subscribe<Core::WindowCloseEvent>([this](const Core::WindowCloseEvent&) {
         m_running = false;
     });
 
@@ -64,7 +64,8 @@ void Application::Run() {
         float dt = (float)(now - lastTime) / (float)freq;
         lastTime = now;
 
-        Core::EventBus::Get().post(Core::FrameBeginEvent{});
+        Core::EventBus::Get().FlushDeferred();
+        Core::EventBus::Get().Post(Core::FrameBeginEvent{});
         m_platform->PollEvents();
         if (m_platform->ShouldClose()) m_running = false;
 
@@ -72,7 +73,7 @@ void Application::Run() {
         ImGui_ImplSDL2_NewFrame();
         ImGui::NewFrame();
 
-        Core::EventBus::Get().post(Core::AppTickEvent{dt});
+        Core::EventBus::Get().Post(Core::AppTickEvent{dt});
         Core::AnimationManager::Get().Update(dt);
 
         m_frameCount++;
@@ -129,7 +130,7 @@ void Application::InitImGui() {
     ImGui_ImplSDL2_InitForOpenGL(window, ctx);
     ImGui_ImplOpenGL3_Init("#version 330");
 
-    Core::EventBus::Get().subscribe<Core::SDLRawEvent>([](const Core::SDLRawEvent& e) {
+    Core::EventBus::Get().Subscribe<Core::SDLRawEvent>([](const Core::SDLRawEvent& e) {
         ImGui_ImplSDL2_ProcessEvent(e.event);
     });
 }

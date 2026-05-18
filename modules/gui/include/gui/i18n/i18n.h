@@ -65,7 +65,7 @@ public:
         m_activeCode = code;
         m_activeData = &it->second;
         spdlog::info("I18n: language set to '{}' ({})", code, m_activeData->name);
-        Core::EventBus::Get().post(LanguageChangedEvent{m_activeCode.c_str(), m_activeData->direction});
+        Core::EventBus::Get().Post(LanguageChangedEvent{m_activeCode.c_str(), m_activeData->direction});
     }
 
     const std::string& T(const std::string& key) const {

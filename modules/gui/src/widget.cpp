@@ -4,7 +4,7 @@
 namespace CarHMI::GUI {
 
 Widget::~Widget() {
-    m_themeSubscription.Unsubscribe();
+    m_themeSubscription.Disconnect();
     if (m_focusable)
         FocusManager::Get().UnregisterWidget(this);
     for (auto* child : m_children)
@@ -54,7 +54,7 @@ glm::vec2 Widget::GetAbsolutePos() const {
 }
 
 void Widget::SubscribeThemeChange() {
-    m_themeSubscription = Core::EventBus::Get().subscribe<Core::ThemeChangedEvent>(
+    m_themeSubscription = Core::EventBus::Get().Subscribe<Core::ThemeChangedEvent>(
         [this](const Core::ThemeChangedEvent&) {
             ApplyThemeRecursive();
         }

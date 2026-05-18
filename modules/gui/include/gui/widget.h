@@ -14,7 +14,8 @@ namespace CarHMI::GUI {
 
 using Core::Property;
 using Core::PropertyMap;
-using Core::SubscriptionHandle;
+using Core::Connection;
+using Core::ConnectionGroup;
 using Core::AnimationManager;
 using Core::EasingFunc;
 namespace Easing = Core::Easing;
@@ -66,7 +67,7 @@ protected:
     bool m_focusable = false;
     Widget* m_parent = nullptr;
     std::vector<Widget*> m_children;
-    Core::SubscriptionHandle m_themeSubscription;
+    Core::Connection m_themeSubscription;
     Core::PropertyMap m_props;
 };
 

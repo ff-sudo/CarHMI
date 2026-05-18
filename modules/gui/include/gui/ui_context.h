@@ -1,6 +1,7 @@
 #pragma once
 
 #include <glm/glm.hpp>
+#include <core/connection.h>
 #include <rhi/batch_renderer2d.h>
 #include <rhi/font.h>
 
@@ -37,6 +38,8 @@ private:
 
     int m_hotId = 0;
     int m_activeId = 0;
+
+    Core::ConnectionGroup m_connections;
 };
 
 } // namespace CarHMI::GUI
