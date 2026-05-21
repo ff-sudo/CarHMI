@@ -1,0 +1,51 @@
+docs/lessons/M1_5_text_input.md
+  995a34e10cfd4af5 1-57
+apps/gallery/textinput_demo_scene.h
+  995a34e10cfd4af5 1-24
+modules/rhi/src/opengl/font.cpp
+  995a34e10cfd4af5 247-266
+modules/pal/src/sdl2/sdl2_platform.cpp
+  995a34e10cfd4af5 6,60-61,110-115
+CHANGELOG.md
+  995a34e10cfd4af5 10-29
+apps/gallery/textinput_demo_scene.cpp
+  995a34e10cfd4af5 1-97
+modules/gui/include/gui/widgets/text_input.h
+  995a34e10cfd4af5 1-296
+modules/gui/include/gui/widget.h
+  995a34e10cfd4af5 37
+apps/gallery/dashboard_scene.cpp
+  995a34e10cfd4af5 10,117-122,131
+modules/gui/src/focus_manager.cpp
+  995a34e10cfd4af5 14-18
+docs/ROADMAP.md
+  995a34e10cfd4af5 21
+apps/gallery/CMakeLists.txt
+  995a34e10cfd4af5 13
+modules/rhi/include/rhi/font.h
+  995a34e10cfd4af5 23
+modules/gui/include/gui/focus_manager.h
+  995a34e10cfd4af5 36
+modules/core/include/core/event.h
+  995a34e10cfd4af5 41-44
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.1.8",
+  "base_commit_sha": "1d39ff36b73e98696f31eb9f733d074671b57e1f",
+  "prompts": {
+    "995a34e10cfd4af5": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "4b76f998-10cd-48d4-ae82-e10dcc6a376c",
+        "model": "claude-opus-4-6"
+      },
+      "human_author": "hyp_cvte <hyp@cviauto.com>",
+      "messages": [],
+      "total_additions": 1864,
+      "total_deletions": 1320,
+      "accepted_lines": 806,
+      "overriden_lines": 0
+    }
+  }
+}
