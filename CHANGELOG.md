@@ -7,6 +7,24 @@
 
 ---
 
+## [0.2.6] - 2026-05-21
+
+### Added
+- **Canvas 自绘 API**（`gui/canvas.h`）：高层绘图上下文，包装 BatchRenderer2D
+  - 状态栈：Save/Restore + Translate
+  - 样式：SetFillColor/SetStrokeColor/SetStrokeWidth
+  - 矩形：FillRect/StrokeRect/FillRoundRect
+  - 圆形：FillCircle/StrokeCircle/FillArc/StrokeArc
+  - 线条：DrawLine/DrawPolyline
+  - 路径：BeginPath/MoveTo/LineTo/ClosePath/StrokePath/FillPath
+  - 文本：DrawText/MeasureText
+  - 裁剪：ClipRect/ResetClip
+- **CanvasWidget**（`gui/widgets/canvas_widget.h`）：基于 callback 的自绘控件
+- **BatchRenderer2D.DrawTriangle**：三角形绘制原语（支持 Canvas FillPath）
+- **CanvasDemoScene**：Canvas API 全功能交互式演示（ImGui 实时调参）
+
+---
+
 ## [0.2.5] - 2026-05-21
 
 ### Added

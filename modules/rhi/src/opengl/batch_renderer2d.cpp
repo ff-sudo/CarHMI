@@ -308,6 +308,26 @@ void BatchRenderer2D::DrawLine(glm::vec2 from, glm::vec2 to, float thickness, co
     m_stats.quadCount++;
 }
 
+void BatchRenderer2D::DrawTriangle(glm::vec2 a, glm::vec2 b, glm::vec2 c, const glm::vec4& color) {
+    if (m_indexCount + 6 > MaxIndices) Flush();
+
+    float texIdx = 0.0f;
+
+    // Degenerate quad: v0=a, v1=b, v2=c, v3=a
+    // Index pattern (0,1,2,2,3,0) → triangles (a,b,c) + (c,a,a) which is degenerate/invisible
+    m_vertexPtr->position = a; m_vertexPtr->color = color;
+    m_vertexPtr->texCoord = {0,0}; m_vertexPtr->texIndex = texIdx; m_vertexPtr++;
+    m_vertexPtr->position = b; m_vertexPtr->color = color;
+    m_vertexPtr->texCoord = {0,0}; m_vertexPtr->texIndex = texIdx; m_vertexPtr++;
+    m_vertexPtr->position = c; m_vertexPtr->color = color;
+    m_vertexPtr->texCoord = {0,0}; m_vertexPtr->texIndex = texIdx; m_vertexPtr++;
+    m_vertexPtr->position = a; m_vertexPtr->color = color;
+    m_vertexPtr->texCoord = {0,0}; m_vertexPtr->texIndex = texIdx; m_vertexPtr++;
+
+    m_indexCount += 6;
+    m_stats.quadCount++;
+}
+
 void BatchRenderer2D::DrawRoundedRect(glm::vec2 pos, glm::vec2 size, float radius, const glm::vec4& color, int cornerSegments) {
     // Clamp radius to half of the smallest dimension
     float maxRadius = std::min(size.x, size.y) * 0.5f;

@@ -5,6 +5,7 @@
 #include "render_demo_scene.h"
 #include "layout_demo_scene.h"
 #include "timer_demo_scene.h"
+#include "canvas_demo_scene.h"
 #include "application.h"
 #include <core/property/binding.h>
 #include <core/scene/scene_manager.h>
@@ -99,12 +100,19 @@ void DashboardScene::OnEnter() {
         Application::Get().GetSceneManager().Push(std::make_unique<TimerDemoScene>());
     });
 
+    auto* canvasBtn = new Button(17, {0, 0}, {50, 40}, "Canvas");
+    canvasBtn->SetFillWidth();
+    canvasBtn->SetOnClick([]() {
+        Application::Get().GetSceneManager().Push(std::make_unique<CanvasDemoScene>());
+    });
+
     btnRow1->AddChild(settingsBtn);
     btnRow1->AddChild(widgetsBtn);
     btnRow1->AddChild(btn3D);
     btnRow2->AddChild(renderBtn);
     btnRow2->AddChild(layoutBtn);
     btnRow2->AddChild(timerBtn);
+    btnRow3->AddChild(canvasBtn);
     btnRow3->AddChild(resetBtn);
     btnGrid->AddChild(btnRow1);
     btnGrid->AddChild(btnRow2);

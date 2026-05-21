@@ -43,6 +43,8 @@ public:
                  float startAngle, float endAngle, const glm::vec4& color, int segments = 32);
     void DrawLine(glm::vec2 from, glm::vec2 to, float thickness, const glm::vec4& color);
 
+    void DrawTriangle(glm::vec2 a, glm::vec2 b, glm::vec2 c, const glm::vec4& color);
+
     void DrawRoundedRect(glm::vec2 pos, glm::vec2 size, float radius, const glm::vec4& color, int cornerSegments = 8);
 
     // Scissor clipping stack
