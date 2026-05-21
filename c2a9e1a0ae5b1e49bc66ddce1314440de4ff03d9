@@ -1,0 +1,23 @@
+CLAUDE.md
+  995a34e10cfd4af5 10-11,13-14,23-25,31,42,66-94,98,102,107-109
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.1.8",
+  "base_commit_sha": "c2a9e1a0ae5b1e49bc66ddce1314440de4ff03d9",
+  "prompts": {
+    "995a34e10cfd4af5": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "4b76f998-10cd-48d4-ae82-e10dcc6a376c",
+        "model": "claude-opus-4-6"
+      },
+      "human_author": "hyp_cvte <hyp@cviauto.com>",
+      "messages": [],
+      "total_additions": 113,
+      "total_deletions": 75,
+      "accepted_lines": 68,
+      "overriden_lines": 0
+    }
+  }
+}
