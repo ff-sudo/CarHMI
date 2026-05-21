@@ -1,0 +1,43 @@
+modules/rhi/include/rhi/batch_renderer2d.h
+  995a34e10cfd4af5 46-47
+apps/gallery/canvas_demo_scene.cpp
+  995a34e10cfd4af5 1-149
+modules/rhi/src/opengl/batch_renderer2d.cpp
+  995a34e10cfd4af5 311-330
+modules/gui/include/gui/widgets/canvas_widget.h
+  995a34e10cfd4af5 1-29
+docs/lessons/M1_10_canvas_api.md
+  995a34e10cfd4af5 1-71
+apps/gallery/dashboard_scene.cpp
+  995a34e10cfd4af5 8,103-108,115
+docs/ROADMAP.md
+  995a34e10cfd4af5 26
+CHANGELOG.md
+  995a34e10cfd4af5 10-27
+apps/gallery/CMakeLists.txt
+  995a34e10cfd4af5 11
+modules/gui/include/gui/canvas.h
+  995a34e10cfd4af5 1-198
+apps/gallery/canvas_demo_scene.h
+  995a34e10cfd4af5 1-27
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.1.8",
+  "base_commit_sha": "217ccb4556bc99cd469f50d0fdb9276f09860bc0",
+  "prompts": {
+    "995a34e10cfd4af5": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "4b76f998-10cd-48d4-ae82-e10dcc6a376c",
+        "model": "claude-opus-4-6"
+      },
+      "human_author": "hyp_cvte <hyp@cviauto.com>",
+      "messages": [],
+      "total_additions": 1652,
+      "total_deletions": 1129,
+      "accepted_lines": 746,
+      "overriden_lines": 0
+    }
+  }
+}
