@@ -18,6 +18,16 @@ void SceneManager::Push(std::unique_ptr<Scene> scene, TransitionType transition)
 }
 
 void SceneManager::Pop(TransitionType transition) {
+    // Defer the actual pop to after Update/OnImGui finishes
+    // to avoid use-after-free when Pop is called from OnImGui
+    m_pendingPop = true;
+    m_pendingPopTransition = transition;
+}
+
+void SceneManager::ProcessPendingPop() {
+    if (!m_pendingPop) return;
+    m_pendingPop = false;
+
     if (m_stack.empty()) return;
 
     spdlog::info("Scene pop: {}", m_stack.back()->GetName());
@@ -26,7 +36,7 @@ void SceneManager::Pop(TransitionType transition) {
 
     if (!m_stack.empty()) {
         m_stack.back()->OnResume();
-        StartTransition(transition);
+        StartTransition(m_pendingPopTransition);
     }
 }
 
@@ -46,6 +56,7 @@ void SceneManager::Update(float dt) {
         m_stack.back()->OnUpdate(dt);
         m_stack.back()->OnImGui();
     }
+    ProcessPendingPop();
 }
 
 void SceneManager::Draw() {

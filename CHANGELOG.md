@@ -7,6 +7,35 @@
 
 ---
 
+## [0.2.4] - 2026-05-21
+
+### Added
+- **Insets 结构体**：四边独立值（top/right/bottom/left），用于 margin 和 padding
+- **SizePolicy**：支持 Fixed/Percent/Fill 三种尺寸模式
+- **Widget.margin**：所有控件支持 SetMargin(Insets)
+- **Widget.SizePolicy**：支持 SetWidthPercent/SetFillWidth 等便捷方法
+- **BoxLayout.Padding 升级**：从 float 升级为 Insets，支持四边独立 padding
+- **BoxLayout 三轮 Recalculate**：测量 Fixed → 分配 Percent/Fill → 放置位置
+- **DebugPanel 模块**（`gui/debug/debug_panel.h`）：通用 ImGui 调试组件集
+  - ShowRenderStats / ShowThemeSelector / ShowLanguageSelector / ShowSceneInfo
+  - EditInsets / EditWidget / EditBoxLayout / ShowWidgetTree
+- **LayoutDemoScene**：交互式布局调参 Demo（ImGui 实时编辑 padding/margin/sizePolicy）
+- **SceneManager 延迟 Pop**：防止 OnImGui 中调 Pop 导致 use-after-free 崩溃
+
+### Fixed
+- 修复水平布局 Percent 子控件溢出（Percent 现在基于去掉 Fixed 后的剩余空间计算）
+- 修复 OnImGui 中点击 Back 按钮导致崩溃（SceneManager::Pop 改为延迟执行）
+
+### Changed
+- Dashboard 按钮从单行改为 2×3 网格布局，按钮宽度自动填充
+  - EditInsets / EditWidget / EditBoxLayout / ShowWidgetTree
+- **LayoutDemoScene**：交互式布局调参 Demo（ImGui 实时编辑 padding/margin/sizePolicy）
+
+### Changed
+- BoxLayout::Recalculate() 支持子控件 margin 和 SizePolicy
+
+---
+
 ## [0.2.3] - 2026-05-21
 
 ### Added

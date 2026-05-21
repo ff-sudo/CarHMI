@@ -27,12 +27,16 @@ public:
 
 private:
     void StartTransition(TransitionType type, float duration = 0.3f);
+    void ProcessPendingPop();
 
     std::vector<std::unique_ptr<Scene>> m_stack;
 
     bool m_transitioning = false;
     float m_transitionOffset = 0.0f;
     float m_transitionAlpha = 1.0f;
+
+    bool m_pendingPop = false;
+    TransitionType m_pendingPopTransition = TransitionType::SlideRight;
 };
 
 } // namespace CarHMI::Core

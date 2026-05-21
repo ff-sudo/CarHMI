@@ -3,6 +3,7 @@
 #include "widget_showcase_scene.h"
 #include "scene_3d_demo.h"
 #include "render_demo_scene.h"
+#include "layout_demo_scene.h"
 #include "application.h"
 #include <core/property/binding.h>
 #include <core/scene/scene_manager.h>
@@ -49,38 +50,55 @@ void DashboardScene::OnEnter() {
     m_fuelBar->SetValue(0.75f);
     m_fuelBar->SetColors({0.9f, 0.7f, 0.1f, 1.0f}, {0.2f, 0.2f, 0.25f, 1.0f});
 
-    auto* btnRow = new HBoxLayout(20, {0, 0}, {360, 45}, 0, 4);
+    auto* btnGrid = new BoxLayout(20, {0, 0}, {360, 90}, BoxDirection::Vertical, 0, 4);
 
-    auto* settingsBtn = new Button(8, {0, 0}, {83, 45}, i.T("btn.settings"));
+    auto* btnRow1 = new HBoxLayout(21, {0, 0}, {360, 40}, 0, 4);
+    auto* btnRow2 = new HBoxLayout(22, {0, 0}, {360, 40}, 0, 4);
+
+    auto* settingsBtn = new Button(8, {0, 0}, {50, 40}, i.T("btn.settings"));
     settingsBtn->SetI18nKey("btn.settings");
+    settingsBtn->SetFillWidth();
     settingsBtn->SetOnClick([]() {
         Application::Get().GetSceneManager().Push(std::make_unique<SettingsScene>());
     });
 
-    auto* widgetsBtn = new Button(12, {0, 0}, {83, 45}, i.T("btn.widgets"));
+    auto* widgetsBtn = new Button(12, {0, 0}, {50, 40}, i.T("btn.widgets"));
     widgetsBtn->SetI18nKey("btn.widgets");
+    widgetsBtn->SetFillWidth();
     widgetsBtn->SetOnClick([]() {
         Application::Get().GetSceneManager().Push(std::make_unique<WidgetShowcaseScene>());
     });
 
-    auto* btn3D = new Button(13, {0, 0}, {83, 45}, "3D");
+    auto* btn3D = new Button(13, {0, 0}, {50, 40}, "3D");
+    btn3D->SetFillWidth();
     btn3D->SetOnClick([]() {
         Application::Get().GetSceneManager().Push(std::make_unique<Scene3DDemo>());
     });
 
-    auto* renderBtn = new Button(14, {0, 0}, {83, 45}, "Render");
+    auto* renderBtn = new Button(14, {0, 0}, {50, 40}, "Render");
+    renderBtn->SetFillWidth();
     renderBtn->SetOnClick([]() {
         Application::Get().GetSceneManager().Push(std::make_unique<RenderDemoScene>());
     });
 
-    auto* resetBtn = new Button(9, {0, 0}, {83, 45}, i.T("btn.reset"));
-    resetBtn->SetI18nKey("btn.reset");
+    auto* layoutBtn = new Button(15, {0, 0}, {50, 40}, "Layout");
+    layoutBtn->SetFillWidth();
+    layoutBtn->SetOnClick([]() {
+        Application::Get().GetSceneManager().Push(std::make_unique<LayoutDemoScene>());
+    });
 
-    btnRow->AddChild(settingsBtn);
-    btnRow->AddChild(widgetsBtn);
-    btnRow->AddChild(btn3D);
-    btnRow->AddChild(renderBtn);
-    btnRow->AddChild(resetBtn);
+    auto* resetBtn = new Button(9, {0, 0}, {50, 40}, i.T("btn.reset"));
+    resetBtn->SetI18nKey("btn.reset");
+    resetBtn->SetFillWidth();
+
+    btnRow1->AddChild(settingsBtn);
+    btnRow1->AddChild(widgetsBtn);
+    btnRow1->AddChild(btn3D);
+    btnRow2->AddChild(renderBtn);
+    btnRow2->AddChild(layoutBtn);
+    btnRow2->AddChild(resetBtn);
+    btnGrid->AddChild(btnRow1);
+    btnGrid->AddChild(btnRow2);
 
     m_statusLabel = new Label(10, {0, 0}, i.T("status.ready"), Label::Role::Subtitle);
     m_statusLabel->SetSize({360, 25});
@@ -129,7 +147,7 @@ void DashboardScene::OnEnter() {
     m_root->AddChild(fuelLabel);
     m_root->AddChild(fuelSlider);
     m_root->AddChild(m_fuelBar);
-    m_root->AddChild(btnRow);
+    m_root->AddChild(btnGrid);
     m_root->AddChild(m_statusLabel);
     m_root->SubscribeThemeChange();
     FocusManager::Get().ClearAll();
