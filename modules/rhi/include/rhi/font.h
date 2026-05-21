@@ -20,6 +20,7 @@ public:
                   float x, float y, const glm::vec4& color = glm::vec4(1.0f));
 
     float MeasureWidth(const std::string& text);
+    float MeasureSubstring(const std::string& text, int charCount);
     float GetLineHeight() const { return m_lineHeight; }
 
     Texture2D& GetAtlasTexture() { return m_atlas; }

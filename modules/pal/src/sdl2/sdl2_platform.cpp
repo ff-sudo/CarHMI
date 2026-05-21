@@ -3,6 +3,7 @@
 #include <core/event.h>
 #include <glad/gl.h>
 #include <spdlog/spdlog.h>
+#include <cstring>
 
 namespace CarHMI::PAL {
 
@@ -56,6 +57,8 @@ bool SDL2Platform::CreateWindow(const WindowConfig& config) {
     spdlog::info("Window created: {}x{}, OpenGL {}.{}",
                  config.width, config.height,
                  GLAD_VERSION_MAJOR(version), GLAD_VERSION_MINOR(version));
+
+    SDL_StartTextInput();
     return true;
 }
 
@@ -104,6 +107,12 @@ void SDL2Platform::PollEvents() {
         case SDL_MOUSEWHEEL:
             EventBus::Get().Post(MouseScrollEvent{(float)sdlEvent.wheel.x, (float)sdlEvent.wheel.y});
             break;
+        case SDL_TEXTINPUT: {
+            TextInputEvent e{};
+            std::memcpy(e.text, sdlEvent.text.text, sizeof(e.text));
+            EventBus::Get().Post(e);
+            break;
+        }
         }
     }
 }

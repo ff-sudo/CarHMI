@@ -38,6 +38,10 @@ struct KeyEvent {
     bool pressed;
 };
 
+struct TextInputEvent {
+    char text[32]; // UTF-8 text from SDL_TEXTINPUT
+};
+
 // === SDL Raw Event (for ImGui passthrough) ===
 struct SDLRawEvent {
     const SDL_Event* event;

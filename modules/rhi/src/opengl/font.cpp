@@ -244,4 +244,24 @@ float Font::MeasureWidth(const std::string& text) {
     return width;
 }
 
+float Font::MeasureSubstring(const std::string& text, int charCount) {
+    if (!m_fontLoaded || charCount <= 0) return 0;
+
+    float width = 0;
+    int count = 0;
+    const char* ptr = text.c_str();
+    const char* end = ptr + text.size();
+
+    while (ptr < end && count < charCount) {
+        uint32_t cp = DecodeUTF8(ptr, end);
+        if (cp == 0 || cp == '\n') break;
+        auto& g = GetOrLoadGlyph(cp);
+        width += g.advance;
+        count++;
+    }
+
+    if (m_atlasDirty) RebuildAtlas();
+    return width;
+}
+
 } // namespace CarHMI::RHI

@@ -7,6 +7,26 @@
 
 ---
 
+## [0.2.8] - 2026-05-21
+
+### Added
+- **TextInput 控件**（`gui/widgets/text_input.h`）：单行文本输入框
+  - 光标闪烁、左右箭头/Home/End 移动光标
+  - Backspace/Delete 删除、Enter 提交
+  - 鼠标点击定位光标、Scissor 裁剪溢出文本
+  - Placeholder 提示文本、聚焦边框高亮
+- **TextInputEvent**：SDL_TEXTINPUT 事件映射，支持 UTF-8 文本输入
+- **Font.MeasureSubstring()**：量测前 N 个字符宽度（用于光标定位）
+- **Widget.OnKeyEvent()**：虚方法，FocusManager 路由键盘事件到聚焦控件
+- **FocusManager.GetFocusChain()**：公开焦点链访问
+- **TextInputDemoScene**：3 个输入框交互式演示
+
+### Changed
+- FocusManager 键盘处理：先转发 OnKeyEvent 到聚焦控件，返回 true 则消费事件
+- SDL2 平台：启用 SDL_StartTextInput，处理 SDL_TEXTINPUT 事件
+
+---
+
 ## [0.2.7] - 2026-05-21
 
 ### Added

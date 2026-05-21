@@ -7,6 +7,7 @@
 #include "timer_demo_scene.h"
 #include "canvas_demo_scene.h"
 #include "scroll_demo_scene.h"
+#include "textinput_demo_scene.h"
 #include "application.h"
 #include <core/property/binding.h>
 #include <core/scene/scene_manager.h>
@@ -113,6 +114,12 @@ void DashboardScene::OnEnter() {
         Application::Get().GetSceneManager().Push(std::make_unique<ScrollDemoScene>());
     });
 
+    auto* inputBtn = new Button(19, {0, 0}, {50, 40}, "Input");
+    inputBtn->SetFillWidth();
+    inputBtn->SetOnClick([]() {
+        Application::Get().GetSceneManager().Push(std::make_unique<TextInputDemoScene>());
+    });
+
     btnRow1->AddChild(settingsBtn);
     btnRow1->AddChild(widgetsBtn);
     btnRow1->AddChild(btn3D);
@@ -121,6 +128,7 @@ void DashboardScene::OnEnter() {
     btnRow2->AddChild(timerBtn);
     btnRow3->AddChild(canvasBtn);
     btnRow3->AddChild(scrollBtn);
+    btnRow3->AddChild(inputBtn);
     btnRow3->AddChild(resetBtn);
     btnGrid->AddChild(btnRow1);
     btnGrid->AddChild(btnRow2);

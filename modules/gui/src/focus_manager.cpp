@@ -11,6 +11,11 @@ void FocusManager::Init() {
     m_keySub = Core::EventBus::Get().Subscribe<Core::KeyEvent>([this](const Core::KeyEvent& e) {
         if (!e.pressed) return;
 
+        // Route key event to focused widget first; if consumed, skip FocusManager handling
+        Widget* focused = GetFocused();
+        if (focused && focused->OnKeyEvent(e))
+            return;
+
         switch (e.scancode) {
         case SDL_SCANCODE_TAB:
             FocusNext();

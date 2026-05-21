@@ -34,6 +34,7 @@ public:
 
     virtual void OnFocusActivate() {}
     virtual void OnFocusAdjust(float delta) {}
+    virtual bool OnKeyEvent(const Core::KeyEvent&) { return false; }
 
     void DrawFocusHighlight(UIContext& ctx);
 

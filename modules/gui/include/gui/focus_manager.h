@@ -33,6 +33,7 @@ public:
     bool IsFocused(int widgetId) const;
 
     void SetFocusIndex(int idx);
+    const std::vector<Widget*>& GetFocusChain() const { return m_focusChain; }
 
 private:
     FocusManager() = default;
