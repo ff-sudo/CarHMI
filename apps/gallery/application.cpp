@@ -1,6 +1,7 @@
 #include "application.h"
 #include <core/animation/animation_manager.h>
 #include <core/resource_manager.h>
+#include <core/timer/timer_manager.h>
 #include <gui/style/theme_manager.h>
 #include <gui/focus_manager.h>
 #include <gui/i18n/i18n.h>
@@ -93,6 +94,7 @@ void Application::Run() {
 
         Core::EventBus::Get().Post(Core::AppTickEvent{dt});
         Core::AnimationManager::Get().Update(dt);
+        Core::TimerManager::Get().Update(dt);
 
         m_frameCount++;
         if (m_frameCount % 60 == 0)

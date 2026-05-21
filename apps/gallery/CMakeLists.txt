@@ -7,6 +7,7 @@ add_executable(Gallery
     scene_3d_demo.cpp
     render_demo_scene.cpp
     layout_demo_scene.cpp
+    timer_demo_scene.cpp
 )
 
 target_link_libraries(Gallery PRIVATE

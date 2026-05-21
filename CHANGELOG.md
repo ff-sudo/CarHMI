@@ -7,6 +7,18 @@
 
 ---
 
+## [0.2.5] - 2026-05-21
+
+### Added
+- **TimerManager**（`core/timer/timer_manager.h`）：全局定时器管理器单例
+  - `SetTimeout(callback, delayMs)` — 一次性延时执行
+  - `SetInterval(callback, intervalMs)` — 周期重复执行
+  - 返回 Connection（RAII 自动取消）
+  - API 使用 int 毫秒，内部 float 累加避免精度丢失
+- **TimerDemoScene**：交互式定时器演示（ImGui 面板创建/取消/监控定时器）
+
+---
+
 ## [0.2.4] - 2026-05-21
 
 ### Added

@@ -4,6 +4,7 @@
 #include "scene_3d_demo.h"
 #include "render_demo_scene.h"
 #include "layout_demo_scene.h"
+#include "timer_demo_scene.h"
 #include "application.h"
 #include <core/property/binding.h>
 #include <core/scene/scene_manager.h>
@@ -50,10 +51,11 @@ void DashboardScene::OnEnter() {
     m_fuelBar->SetValue(0.75f);
     m_fuelBar->SetColors({0.9f, 0.7f, 0.1f, 1.0f}, {0.2f, 0.2f, 0.25f, 1.0f});
 
-    auto* btnGrid = new BoxLayout(20, {0, 0}, {360, 90}, BoxDirection::Vertical, 0, 4);
+    auto* btnGrid = new BoxLayout(20, {0, 0}, {360, 130}, BoxDirection::Vertical, 0, 4);
 
     auto* btnRow1 = new HBoxLayout(21, {0, 0}, {360, 40}, 0, 4);
     auto* btnRow2 = new HBoxLayout(22, {0, 0}, {360, 40}, 0, 4);
+    auto* btnRow3 = new HBoxLayout(23, {0, 0}, {360, 40}, 0, 4);
 
     auto* settingsBtn = new Button(8, {0, 0}, {50, 40}, i.T("btn.settings"));
     settingsBtn->SetI18nKey("btn.settings");
@@ -91,14 +93,22 @@ void DashboardScene::OnEnter() {
     resetBtn->SetI18nKey("btn.reset");
     resetBtn->SetFillWidth();
 
+    auto* timerBtn = new Button(16, {0, 0}, {50, 40}, "Timer");
+    timerBtn->SetFillWidth();
+    timerBtn->SetOnClick([]() {
+        Application::Get().GetSceneManager().Push(std::make_unique<TimerDemoScene>());
+    });
+
     btnRow1->AddChild(settingsBtn);
     btnRow1->AddChild(widgetsBtn);
     btnRow1->AddChild(btn3D);
     btnRow2->AddChild(renderBtn);
     btnRow2->AddChild(layoutBtn);
-    btnRow2->AddChild(resetBtn);
+    btnRow2->AddChild(timerBtn);
+    btnRow3->AddChild(resetBtn);
     btnGrid->AddChild(btnRow1);
     btnGrid->AddChild(btnRow2);
+    btnGrid->AddChild(btnRow3);
 
     m_statusLabel = new Label(10, {0, 0}, i.T("status.ready"), Label::Role::Subtitle);
     m_statusLabel->SetSize({360, 25});
