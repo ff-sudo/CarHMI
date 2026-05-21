@@ -7,6 +7,20 @@
 
 ---
 
+## [0.2.3] - 2026-05-21
+
+### Added
+- **DrawRoundedRect**：BatchRenderer2D 新增圆角矩形绘制（CPU 几何细分，9-patch + 4角扇形）
+- **Scissor 裁剪栈**：BatchRenderer2D 新增 PushScissor/PopScissor，支持嵌套裁剪
+- **SetViewportSize**：BatchRenderer2D 设置视口尺寸（用于 Scissor Y 轴翻转）
+- **UIContext.PushClipRect/PopClipRect**：GUI 层裁剪便捷接口
+- **RenderDemoScene**：Gallery 新增渲染 Demo 场景，展示圆角矩形 + Scissor 裁剪
+
+### Changed
+- CMakeUserPresets.json 添加 CMAKE_RC_COMPILER 完整路径，修复 CLI 构建找不到 rc.exe
+
+---
+
 ## [0.2.2] - 2026-05-19
 
 ### Added

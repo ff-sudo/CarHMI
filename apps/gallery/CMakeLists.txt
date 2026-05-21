@@ -5,6 +5,7 @@ add_executable(Gallery
     settings_scene.cpp
     widget_showcase_scene.cpp
     scene_3d_demo.cpp
+    render_demo_scene.cpp
 )
 
 target_link_libraries(Gallery PRIVATE

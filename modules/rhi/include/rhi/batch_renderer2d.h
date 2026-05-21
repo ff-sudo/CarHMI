@@ -4,6 +4,7 @@
 #include "texture.h"
 #include <glm/glm.hpp>
 #include <array>
+#include <vector>
 
 namespace CarHMI::RHI {
 
@@ -42,6 +43,13 @@ public:
                  float startAngle, float endAngle, const glm::vec4& color, int segments = 32);
     void DrawLine(glm::vec2 from, glm::vec2 to, float thickness, const glm::vec4& color);
 
+    void DrawRoundedRect(glm::vec2 pos, glm::vec2 size, float radius, const glm::vec4& color, int cornerSegments = 8);
+
+    // Scissor clipping stack
+    void SetViewportSize(int width, int height);
+    void PushScissor(glm::vec2 pos, glm::vec2 size);
+    void PopScissor();
+
     const Stats& GetStats() const { return m_stats; }
 
 private:
@@ -70,6 +78,12 @@ private:
     int m_textureSlotIndex = 1;
 
     Stats m_stats;
+
+    // Scissor stack
+    std::vector<glm::vec4> m_scissorStack; // each entry: (x, y, w, h) in screen coords
+    int m_viewportWidth = 1280;
+    int m_viewportHeight = 720;
+    void ApplyScissor();
 };
 
 } // namespace CarHMI::RHI

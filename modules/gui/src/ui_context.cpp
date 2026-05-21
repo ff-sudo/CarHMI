@@ -42,4 +42,12 @@ void UIContext::BeginFrame() {
     m_hotId = 0;
 }
 
+void UIContext::PushClipRect(glm::vec2 pos, glm::vec2 size) {
+    m_renderer->PushScissor(pos, size);
+}
+
+void UIContext::PopClipRect() {
+    m_renderer->PopScissor();
+}
+
 } // namespace CarHMI::GUI

@@ -14,6 +14,10 @@ public:
     RHI::BatchRenderer2D& GetRenderer() { return *m_renderer; }
     RHI::Font& GetFont() { return *m_font; }
 
+    // Scissor clipping
+    void PushClipRect(glm::vec2 pos, glm::vec2 size);
+    void PopClipRect();
+
     glm::vec2 GetMousePos() const { return m_mousePos; }
     bool IsMouseDown() const { return m_mouseDown; }
     bool IsMousePressed() const { return m_mousePressed; }

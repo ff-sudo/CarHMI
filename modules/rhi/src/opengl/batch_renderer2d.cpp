@@ -2,6 +2,8 @@
 #include <glm/gtc/matrix_transform.hpp>
 #include <cstring>
 #include <cstdio>
+#include <algorithm>
+#include <cmath>
 
 namespace CarHMI::RHI {
 
@@ -304,6 +306,195 @@ void BatchRenderer2D::DrawLine(glm::vec2 from, glm::vec2 to, float thickness, co
 
     m_indexCount += 6;
     m_stats.quadCount++;
+}
+
+void BatchRenderer2D::DrawRoundedRect(glm::vec2 pos, glm::vec2 size, float radius, const glm::vec4& color, int cornerSegments) {
+    // Clamp radius to half of the smallest dimension
+    float maxRadius = std::min(size.x, size.y) * 0.5f;
+    radius = std::min(radius, maxRadius);
+
+    if (radius < 0.5f) {
+        DrawQuad(pos, size, color);
+        return;
+    }
+
+    float texIdx = 0.0f;
+    float r = radius;
+
+    // Inner rect corners (the rectangle excluding the rounded corners)
+    float left = pos.x + r;
+    float right = pos.x + size.x - r;
+    float top = pos.y + r;
+    float bottom = pos.y + size.y - r;
+
+    // Center quad
+    {
+        if (m_indexCount + 6 > MaxIndices) Flush();
+        m_vertexPtr->position = {left, top}; m_vertexPtr->color = color;
+        m_vertexPtr->texCoord = {0,0}; m_vertexPtr->texIndex = texIdx; m_vertexPtr++;
+        m_vertexPtr->position = {right, top}; m_vertexPtr->color = color;
+        m_vertexPtr->texCoord = {0,0}; m_vertexPtr->texIndex = texIdx; m_vertexPtr++;
+        m_vertexPtr->position = {right, bottom}; m_vertexPtr->color = color;
+        m_vertexPtr->texCoord = {0,0}; m_vertexPtr->texIndex = texIdx; m_vertexPtr++;
+        m_vertexPtr->position = {left, bottom}; m_vertexPtr->color = color;
+        m_vertexPtr->texCoord = {0,0}; m_vertexPtr->texIndex = texIdx; m_vertexPtr++;
+        m_indexCount += 6; m_stats.quadCount++;
+    }
+
+    // Top edge
+    {
+        if (m_indexCount + 6 > MaxIndices) Flush();
+        m_vertexPtr->position = {left, pos.y}; m_vertexPtr->color = color;
+        m_vertexPtr->texCoord = {0,0}; m_vertexPtr->texIndex = texIdx; m_vertexPtr++;
+        m_vertexPtr->position = {right, pos.y}; m_vertexPtr->color = color;
+        m_vertexPtr->texCoord = {0,0}; m_vertexPtr->texIndex = texIdx; m_vertexPtr++;
+        m_vertexPtr->position = {right, top}; m_vertexPtr->color = color;
+        m_vertexPtr->texCoord = {0,0}; m_vertexPtr->texIndex = texIdx; m_vertexPtr++;
+        m_vertexPtr->position = {left, top}; m_vertexPtr->color = color;
+        m_vertexPtr->texCoord = {0,0}; m_vertexPtr->texIndex = texIdx; m_vertexPtr++;
+        m_indexCount += 6; m_stats.quadCount++;
+    }
+
+    // Bottom edge
+    {
+        if (m_indexCount + 6 > MaxIndices) Flush();
+        m_vertexPtr->position = {left, bottom}; m_vertexPtr->color = color;
+        m_vertexPtr->texCoord = {0,0}; m_vertexPtr->texIndex = texIdx; m_vertexPtr++;
+        m_vertexPtr->position = {right, bottom}; m_vertexPtr->color = color;
+        m_vertexPtr->texCoord = {0,0}; m_vertexPtr->texIndex = texIdx; m_vertexPtr++;
+        m_vertexPtr->position = {right, pos.y + size.y}; m_vertexPtr->color = color;
+        m_vertexPtr->texCoord = {0,0}; m_vertexPtr->texIndex = texIdx; m_vertexPtr++;
+        m_vertexPtr->position = {left, pos.y + size.y}; m_vertexPtr->color = color;
+        m_vertexPtr->texCoord = {0,0}; m_vertexPtr->texIndex = texIdx; m_vertexPtr++;
+        m_indexCount += 6; m_stats.quadCount++;
+    }
+
+    // Left edge
+    {
+        if (m_indexCount + 6 > MaxIndices) Flush();
+        m_vertexPtr->position = {pos.x, top}; m_vertexPtr->color = color;
+        m_vertexPtr->texCoord = {0,0}; m_vertexPtr->texIndex = texIdx; m_vertexPtr++;
+        m_vertexPtr->position = {left, top}; m_vertexPtr->color = color;
+        m_vertexPtr->texCoord = {0,0}; m_vertexPtr->texIndex = texIdx; m_vertexPtr++;
+        m_vertexPtr->position = {left, bottom}; m_vertexPtr->color = color;
+        m_vertexPtr->texCoord = {0,0}; m_vertexPtr->texIndex = texIdx; m_vertexPtr++;
+        m_vertexPtr->position = {pos.x, bottom}; m_vertexPtr->color = color;
+        m_vertexPtr->texCoord = {0,0}; m_vertexPtr->texIndex = texIdx; m_vertexPtr++;
+        m_indexCount += 6; m_stats.quadCount++;
+    }
+
+    // Right edge
+    {
+        if (m_indexCount + 6 > MaxIndices) Flush();
+        m_vertexPtr->position = {right, top}; m_vertexPtr->color = color;
+        m_vertexPtr->texCoord = {0,0}; m_vertexPtr->texIndex = texIdx; m_vertexPtr++;
+        m_vertexPtr->position = {pos.x + size.x, top}; m_vertexPtr->color = color;
+        m_vertexPtr->texCoord = {0,0}; m_vertexPtr->texIndex = texIdx; m_vertexPtr++;
+        m_vertexPtr->position = {pos.x + size.x, bottom}; m_vertexPtr->color = color;
+        m_vertexPtr->texCoord = {0,0}; m_vertexPtr->texIndex = texIdx; m_vertexPtr++;
+        m_vertexPtr->position = {right, bottom}; m_vertexPtr->color = color;
+        m_vertexPtr->texCoord = {0,0}; m_vertexPtr->texIndex = texIdx; m_vertexPtr++;
+        m_indexCount += 6; m_stats.quadCount++;
+    }
+
+    // Four corner arcs (triangle fans from corner center)
+    constexpr float PI = 3.14159265358979f;
+    float step = (PI * 0.5f) / (float)cornerSegments;
+
+    // Corner centers and start angles:
+    // TL: center=(left,top),    startAngle=PI
+    // TR: center=(right,top),   startAngle=PI*1.5
+    // BR: center=(right,bottom),startAngle=0
+    // BL: center=(left,bottom), startAngle=PI*0.5
+    struct Corner { glm::vec2 center; float startAngle; };
+    Corner corners[4] = {
+        {{left, top}, PI},
+        {{right, top}, PI * 1.5f},
+        {{right, bottom}, 0.0f},
+        {{left, bottom}, PI * 0.5f}
+    };
+
+    for (auto& corner : corners) {
+        for (int i = 0; i < cornerSegments; i++) {
+            if (m_indexCount + 6 > MaxIndices) Flush();
+
+            float a0 = corner.startAngle + step * i;
+            float a1 = corner.startAngle + step * (i + 1);
+
+            glm::vec2 p0 = corner.center;
+            glm::vec2 p1 = corner.center + glm::vec2(cosf(a0), sinf(a0)) * r;
+            glm::vec2 p2 = corner.center + glm::vec2(cosf(a1), sinf(a1)) * r;
+
+            // Triangle as degenerate quad (p0, p1, p2, p0)
+            m_vertexPtr->position = p0; m_vertexPtr->color = color;
+            m_vertexPtr->texCoord = {0,0}; m_vertexPtr->texIndex = texIdx; m_vertexPtr++;
+            m_vertexPtr->position = p1; m_vertexPtr->color = color;
+            m_vertexPtr->texCoord = {0,0}; m_vertexPtr->texIndex = texIdx; m_vertexPtr++;
+            m_vertexPtr->position = p2; m_vertexPtr->color = color;
+            m_vertexPtr->texCoord = {0,0}; m_vertexPtr->texIndex = texIdx; m_vertexPtr++;
+            m_vertexPtr->position = p0; m_vertexPtr->color = color;
+            m_vertexPtr->texCoord = {0,0}; m_vertexPtr->texIndex = texIdx; m_vertexPtr++;
+
+            m_indexCount += 6; m_stats.quadCount++;
+        }
+    }
+}
+
+// --- Scissor Clipping ---
+
+void BatchRenderer2D::SetViewportSize(int width, int height) {
+    m_viewportWidth = width;
+    m_viewportHeight = height;
+}
+
+void BatchRenderer2D::PushScissor(glm::vec2 pos, glm::vec2 size) {
+    Flush();
+
+    glm::vec4 rect(pos.x, pos.y, size.x, size.y);
+
+    // Intersect with current top of stack
+    if (!m_scissorStack.empty()) {
+        auto& top = m_scissorStack.back();
+        float x1 = std::max(rect.x, top.x);
+        float y1 = std::max(rect.y, top.y);
+        float x2 = std::min(rect.x + rect.z, top.x + top.z);
+        float y2 = std::min(rect.y + rect.w, top.y + top.w);
+        rect = glm::vec4(x1, y1, std::max(0.0f, x2 - x1), std::max(0.0f, y2 - y1));
+    }
+
+    m_scissorStack.push_back(rect);
+    ApplyScissor();
+}
+
+void BatchRenderer2D::PopScissor() {
+    Flush();
+
+    if (!m_scissorStack.empty()) {
+        m_scissorStack.pop_back();
+    }
+
+    if (m_scissorStack.empty()) {
+        glDisable(GL_SCISSOR_TEST);
+    } else {
+        ApplyScissor();
+    }
+}
+
+void BatchRenderer2D::ApplyScissor() {
+    if (m_scissorStack.empty()) {
+        glDisable(GL_SCISSOR_TEST);
+        return;
+    }
+
+    auto& rect = m_scissorStack.back();
+    // Convert from top-left-origin to OpenGL bottom-left-origin
+    int sx = (int)rect.x;
+    int sy = m_viewportHeight - (int)(rect.y + rect.w);
+    int sw = (int)rect.z;
+    int sh = (int)rect.w;
+
+    glEnable(GL_SCISSOR_TEST);
+    glScissor(sx, sy, sw, sh);
 }
 
 } // namespace CarHMI::RHI

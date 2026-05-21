@@ -2,6 +2,7 @@
 #include "settings_scene.h"
 #include "widget_showcase_scene.h"
 #include "scene_3d_demo.h"
+#include "render_demo_scene.h"
 #include "application.h"
 #include <core/property/binding.h>
 #include <core/scene/scene_manager.h>
@@ -67,12 +68,18 @@ void DashboardScene::OnEnter() {
         Application::Get().GetSceneManager().Push(std::make_unique<Scene3DDemo>());
     });
 
+    auto* renderBtn = new Button(14, {0, 0}, {83, 45}, "Render");
+    renderBtn->SetOnClick([]() {
+        Application::Get().GetSceneManager().Push(std::make_unique<RenderDemoScene>());
+    });
+
     auto* resetBtn = new Button(9, {0, 0}, {83, 45}, i.T("btn.reset"));
     resetBtn->SetI18nKey("btn.reset");
 
     btnRow->AddChild(settingsBtn);
     btnRow->AddChild(widgetsBtn);
     btnRow->AddChild(btn3D);
+    btnRow->AddChild(renderBtn);
     btnRow->AddChild(resetBtn);
 
     m_statusLabel = new Label(10, {0, 0}, i.T("status.ready"), Label::Role::Subtitle);

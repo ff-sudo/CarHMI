@@ -104,6 +104,7 @@ void Application::Run() {
 
         auto winSize = m_platform->GetWindowSize();
         glViewport(0, 0, winSize.x, winSize.y);
+        m_renderer.SetViewportSize(winSize.x, winSize.y);
         glClearColor(theme.app.clearColor.r, theme.app.clearColor.g,
                      theme.app.clearColor.b, theme.app.clearColor.a);
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
