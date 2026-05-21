@@ -17,7 +17,7 @@
 | 1.1 | ~~修复中文/阿拉伯文字体不显示~~ | RHI | ✅ |
 | 1.2 | ~~ResourceManager 基础版（统一加载 + 引用计数）~~ | Core | ✅ |
 | 1.3 | ~~渲染增强：圆角矩形、裁剪区域（Scissor）~~ | RHI | ✅ |
-| 1.4 | ScrollView 控件 | GUI | P1 |
+| 1.4 | ~~ScrollView 控件~~ | GUI | ✅ |
 | 1.5 | TextInput 控件 | GUI | P1 |
 | 1.6 | ImageView 控件（支持背景图） | GUI | P2 |
 | 1.7 | Dialog/Toast 弹窗系统 | GUI | P2 |

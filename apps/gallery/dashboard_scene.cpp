@@ -6,6 +6,7 @@
 #include "layout_demo_scene.h"
 #include "timer_demo_scene.h"
 #include "canvas_demo_scene.h"
+#include "scroll_demo_scene.h"
 #include "application.h"
 #include <core/property/binding.h>
 #include <core/scene/scene_manager.h>
@@ -106,6 +107,12 @@ void DashboardScene::OnEnter() {
         Application::Get().GetSceneManager().Push(std::make_unique<CanvasDemoScene>());
     });
 
+    auto* scrollBtn = new Button(18, {0, 0}, {50, 40}, "Scroll");
+    scrollBtn->SetFillWidth();
+    scrollBtn->SetOnClick([]() {
+        Application::Get().GetSceneManager().Push(std::make_unique<ScrollDemoScene>());
+    });
+
     btnRow1->AddChild(settingsBtn);
     btnRow1->AddChild(widgetsBtn);
     btnRow1->AddChild(btn3D);
@@ -113,6 +120,7 @@ void DashboardScene::OnEnter() {
     btnRow2->AddChild(layoutBtn);
     btnRow2->AddChild(timerBtn);
     btnRow3->AddChild(canvasBtn);
+    btnRow3->AddChild(scrollBtn);
     btnRow3->AddChild(resetBtn);
     btnGrid->AddChild(btnRow1);
     btnGrid->AddChild(btnRow2);

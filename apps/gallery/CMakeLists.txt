@@ -9,6 +9,7 @@ add_executable(Gallery
     layout_demo_scene.cpp
     timer_demo_scene.cpp
     canvas_demo_scene.cpp
+    scroll_demo_scene.cpp
 )
 
 target_link_libraries(Gallery PRIVATE
