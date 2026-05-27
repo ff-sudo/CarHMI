@@ -2,6 +2,7 @@
 
 #include <gui/widget.h>
 #include <gui/style/theme_manager.h>
+#include <gui/i18n/i18n.h>
 #include <core/animation/animation_manager.h>
 #include <core/animation/easing.h>
 #include <spdlog/spdlog.h>
@@ -28,7 +29,25 @@ public:
         m_inactiveTextColor = s.inactiveTextColor;
     }
 
-    void AddTab(const std::string& label) { m_tabs.push_back(label); }
+    void AddTab(const std::string& label) {
+        m_tabs.push_back(label);
+        m_tabI18nKeys.push_back("");
+    }
+
+    void AddTabI18n(const std::string& i18nKey) {
+        m_tabs.push_back(I18n::Get().T(i18nKey));
+        m_tabI18nKeys.push_back(i18nKey);
+        if (!m_langSubscribed) {
+            m_langSubscribed = true;
+            m_langConnection = Core::EventBus::Get().Subscribe<LanguageChangedEvent>(
+                [this](const LanguageChangedEvent&) {
+                    for (size_t i = 0; i < m_tabI18nKeys.size(); i++) {
+                        if (!m_tabI18nKeys[i].empty())
+                            m_tabs[i] = I18n::Get().T(m_tabI18nKeys[i]);
+                    }
+                });
+        }
+    }
 
     void Update(UIContext& ctx) override {
         if (!m_visible || m_tabs.empty()) return;
@@ -100,6 +119,9 @@ private:
     }
 
     std::vector<std::string> m_tabs;
+    std::vector<std::string> m_tabI18nKeys;
+    bool m_langSubscribed = false;
+    Core::Connection m_langConnection;
     Property<float>* m_propActiveIndex;
     float m_indicatorX = 0.0f;
     std::function<void(int)> m_onTabChanged;

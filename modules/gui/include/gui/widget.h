@@ -88,6 +88,7 @@ protected:
     bool m_focusable = false;
     Insets m_margin;
     SizePolicy m_sizePolicy;
+    glm::vec2 m_scrollOffset = {0, 0};
     Widget* m_parent = nullptr;
     std::vector<Widget*> m_children;
     Core::Connection m_themeSubscription;

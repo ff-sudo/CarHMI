@@ -36,8 +36,15 @@ void FocusManager::Init() {
     });
 
     m_scrollSub = Core::EventBus::Get().Subscribe<Core::MouseScrollEvent>([this](const Core::MouseScrollEvent& e) {
-        if (m_focusIndex >= 0)
-            AdjustFocusedValue(e.yOffset);
+        if (m_focusIndex >= 0) {
+            Widget* w = GetFocused();
+            if (w && w->Contains(m_lastMousePos))
+                AdjustFocusedValue(e.yOffset);
+        }
+    });
+
+    m_mouseMoveSub = Core::EventBus::Get().Subscribe<Core::MouseMoveEvent>([this](const Core::MouseMoveEvent& e) {
+        m_lastMousePos = {e.x, e.y};
     });
 
     spdlog::info("FocusManager initialized");

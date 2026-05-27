@@ -40,6 +40,15 @@ inline Theme LoadFromFile(const std::string& path) {
 
     theme.name = root.value("name", "unnamed");
 
+    if (root.contains("widget")) {
+        auto& j = root["widget"];
+        theme.widget.backgroundColor = ParseColor(j, "backgroundColor", theme.widget.backgroundColor);
+        theme.widget.foregroundColor = ParseColor(j, "foregroundColor", theme.widget.foregroundColor);
+        theme.widget.accentColor = ParseColor(j, "accentColor", theme.widget.accentColor);
+        theme.widget.padding = ParseFloat(j, "padding", theme.widget.padding);
+        theme.widget.spacing = ParseFloat(j, "spacing", theme.widget.spacing);
+        theme.widget.borderRadius = ParseFloat(j, "borderRadius", theme.widget.borderRadius);
+    }
     if (root.contains("app")) {
         auto& j = root["app"];
         theme.app.clearColor = ParseColor(j, "clearColor", theme.app.clearColor);

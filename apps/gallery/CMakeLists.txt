@@ -26,6 +26,10 @@ target_link_libraries(Gallery PRIVATE
     SDL2::SDL2main
 )
 
+if(CARHMI_WARNING_FLAGS)
+    target_compile_options(Gallery PRIVATE ${CARHMI_WARNING_FLAGS})
+endif()
+
 # Copy resources to build directory
 add_custom_command(TARGET Gallery POST_BUILD
     COMMAND ${CMAKE_COMMAND} -E copy_directory

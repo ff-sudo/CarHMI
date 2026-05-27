@@ -59,13 +59,10 @@ public:
     void Update(UIContext& ctx) override {
         if (!m_visible) return;
         m_lastMousePos = ctx.GetMousePos();
+        m_scrollOffset = {-m_scrollX, -m_scrollY};
 
-        for (auto* child : m_children) {
-            glm::vec2 origPos = child->GetPos();
-            child->SetPos(origPos + glm::vec2(-m_scrollX, -m_scrollY));
+        for (auto* child : m_children)
             child->Update(ctx);
-            child->SetPos(origPos);
-        }
     }
 
     void Draw(UIContext& ctx) override {
@@ -76,17 +73,13 @@ public:
         ctx.GetRenderer().DrawQuad(abs, m_size, m_bgColor);
 
         // Reserve space for scrollbars
-        float clipW = m_size.x - (NeedsVScroll() ? kBarWidth + kBarMargin * 2 : 0);
-        float clipH = m_size.y - (NeedsHScroll() ? kBarWidth + kBarMargin * 2 : 0);
+        float clipW = m_size.x - (m_showScrollbar && NeedsVScroll() ? kBarWidth + kBarMargin * 2 : 0);
+        float clipH = m_size.y - (m_showScrollbar && NeedsHScroll() ? kBarWidth + kBarMargin * 2 : 0);
 
         // Clip children to content area (excluding scrollbar region)
         ctx.PushClipRect(abs, {clipW, clipH});
-        for (auto* child : m_children) {
-            glm::vec2 origPos = child->GetPos();
-            child->SetPos(origPos + glm::vec2(-m_scrollX, -m_scrollY));
+        for (auto* child : m_children)
             child->Draw(ctx);
-            child->SetPos(origPos);
-        }
         ctx.PopClipRect();
 
         // Draw scrollbars on top

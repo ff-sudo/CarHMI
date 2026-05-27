@@ -2,6 +2,7 @@
 #include "application.h"
 #include <core/scene/scene_manager.h>
 #include <gui/focus_manager.h>
+#include <gui/i18n/i18n.h>
 #include <imgui.h>
 #include <glm/gtc/matrix_transform.hpp>
 #include <spdlog/spdlog.h>
@@ -19,12 +20,14 @@ void WidgetShowcaseScene::OnEnter() {
     leftCol->SetDrawBackgroundFromTheme(true);
 
     auto* gaugeTitle = new Label(201, {0, 0}, "Speedometer", Label::Role::Title);
+    gaugeTitle->SetI18nKey("showcase.speedometer");
     gaugeTitle->SetSize({270, 25});
 
     m_gauge = new Gauge(202, {0, 0}, 120.0f, 0.0f, 240.0f);
     m_gauge->SetUnit("km/h");
 
     auto* knobTitle = new Label(203, {0, 0}, "Volume", Label::Role::Subtitle);
+    knobTitle->SetI18nKey("showcase.volume");
     knobTitle->SetSize({270, 25});
 
     m_knob = new Knob(204, {0, 0}, 50.0f, 0.0f, 100.0f);
@@ -50,9 +53,9 @@ void WidgetShowcaseScene::OnEnter() {
     rightCol->SetDrawBackgroundFromTheme(true);
 
     auto* tabBar = new TabBar(301, {0, 0}, {320, 40});
-    tabBar->AddTab("Media");
-    tabBar->AddTab("Phone");
-    tabBar->AddTab("Nav");
+    tabBar->AddTabI18n("tab.media");
+    tabBar->AddTabI18n("tab.phone");
+    tabBar->AddTabI18n("tab.nav");
 
     auto* tabLabel = new Label(302, {0, 0}, "Tab: Media", Label::Role::Subtitle);
     tabLabel->SetSize({320, 25});
@@ -65,10 +68,12 @@ void WidgetShowcaseScene::OnEnter() {
 
     auto* toggleRow = new HBoxLayout(310, {0, 0}, {320, 40}, 0, 15);
     auto* acLabel = new Label(311, {0, 0}, "A/C");
+    acLabel->SetI18nKey("toggle.ac");
     acLabel->SetSize({30, 30});
     auto* acToggle = new Toggle(312, {0, 0}, {55, 28});
 
     auto* lightLabel = new Label(313, {0, 0}, "Lights");
+    lightLabel->SetI18nKey("toggle.lights");
     lightLabel->SetSize({45, 30});
     auto* lightToggle = new Toggle(314, {0, 0}, {55, 28});
     lightToggle->SetOn(true);
@@ -79,6 +84,7 @@ void WidgetShowcaseScene::OnEnter() {
     toggleRow->AddChild(lightToggle);
 
     auto* listTitle = new Label(320, {0, 0}, "Stations", Label::Role::Subtitle);
+    listTitle->SetI18nKey("showcase.stations");
     listTitle->SetSize({320, 25});
 
     auto* list = new ListWidget(321, {0, 0}, {320, 250}, 36.0f);
@@ -93,6 +99,7 @@ void WidgetShowcaseScene::OnEnter() {
     list->AddItem("AM 1010 - Weather");
 
     auto* backBtn = new Button(399, {0, 0}, {320, 40}, "< Back to Dashboard");
+    backBtn->SetI18nKey("btn.back");
     backBtn->SetOnClick([]() {
         Application::Get().GetSceneManager().Pop();
     });

@@ -18,7 +18,7 @@ public:
         ApplyTheme();
     }
 
-    void ApplyTheme() {
+    void ApplyTheme() override {
         auto& s = ThemeManager::Get().GetTheme().slider;
         m_trackColor = s.trackColor;
         m_fillColor = s.fillColor;

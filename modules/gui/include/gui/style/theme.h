@@ -93,6 +93,7 @@ struct AppStyle {
 
 struct Theme {
     std::string name;
+    WidgetStyle widget;  // unified accent color + general defaults
     AppStyle app;
     PanelStyle panel;
     LabelStyle label;

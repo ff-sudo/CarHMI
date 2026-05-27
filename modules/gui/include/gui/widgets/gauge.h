@@ -94,13 +94,13 @@ private:
     float m_startAngle = 135.0f;
     float m_endAngle = 405.0f;
 
-    glm::vec4 m_bgColor      = {0.12f, 0.12f, 0.15f, 1.0f};
-    glm::vec4 m_trackColor   = {0.25f, 0.25f, 0.30f, 1.0f};
-    glm::vec4 m_fillColor    = {0.2f, 0.6f, 0.9f, 1.0f};
-    glm::vec4 m_warningColor = {0.9f, 0.7f, 0.1f, 1.0f};
-    glm::vec4 m_dangerColor  = {0.9f, 0.2f, 0.2f, 1.0f};
-    glm::vec4 m_needleColor  = {1.0f, 0.3f, 0.2f, 1.0f};
-    glm::vec4 m_textColor    = {1.0f, 1.0f, 1.0f, 1.0f};
+    glm::vec4 m_bgColor;
+    glm::vec4 m_trackColor;
+    glm::vec4 m_fillColor;
+    glm::vec4 m_warningColor;
+    glm::vec4 m_dangerColor;
+    glm::vec4 m_needleColor;
+    glm::vec4 m_textColor;
 };
 
 } // namespace CarHMI::GUI

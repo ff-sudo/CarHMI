@@ -30,6 +30,11 @@ function(carhmi_add_module MODULE_NAME)
         target_include_directories(${TARGET_NAME} PRIVATE
             ${CMAKE_CURRENT_SOURCE_DIR}/src
         )
+
+        # Apply project warning flags
+        if(CARHMI_WARNING_FLAGS)
+            target_compile_options(${TARGET_NAME} PRIVATE ${CARHMI_WARNING_FLAGS})
+        endif()
     endif()
 
     add_library(CarHMI::${MODULE_NAME} ALIAS ${TARGET_NAME})

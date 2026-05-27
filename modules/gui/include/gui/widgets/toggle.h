@@ -62,10 +62,12 @@ public:
     }
 
     void SetOnChanged(std::function<void(bool)> cb) {
-        m_propOn->OnChanged([cb](const float&, const float& newVal) {
-            // fire only when transition completes (crosses 0.5 threshold)
-        });
         m_onChanged = std::move(cb);
+        m_onChangedConnection = m_propOn->OnChanged([this](const float& oldVal, const float& newVal) {
+            bool wasOn = oldVal > 0.5f;
+            bool isOn = newVal > 0.5f;
+            if (wasOn != isOn && m_onChanged) m_onChanged(isOn);
+        });
     }
 
 private:
@@ -79,6 +81,7 @@ private:
     bool m_on = false;
     Property<float>* m_propOn;
     std::function<void(bool)> m_onChanged;
+    Core::Connection m_onChangedConnection;
 
     glm::vec4 m_offColor, m_onColor, m_handleColor;
 };

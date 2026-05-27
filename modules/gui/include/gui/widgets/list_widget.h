@@ -2,6 +2,8 @@
 
 #include <gui/widget.h>
 #include <gui/style/theme_manager.h>
+#include <gui/i18n/i18n.h>
+#include <core/event_bus.h>
 #include <spdlog/spdlog.h>
 #include <functional>
 #include <vector>
@@ -27,8 +29,32 @@ public:
         m_scrollbarColor = s.scrollbarColor;
     }
 
-    void AddItem(const std::string& text) { m_items.push_back(text); }
-    void ClearItems() { m_items.clear(); m_scrollOffset = 0; m_propSelectedIndex->Set(-1.0f); }
+    void AddItem(const std::string& text) {
+        m_items.push_back(text);
+        m_itemI18nKeys.push_back("");
+    }
+
+    void AddItemI18n(const std::string& i18nKey) {
+        m_items.push_back(I18n::Get().T(i18nKey));
+        m_itemI18nKeys.push_back(i18nKey);
+        if (!m_langSubscribed) {
+            m_langSubscribed = true;
+            m_langConnection = Core::EventBus::Get().Subscribe<LanguageChangedEvent>(
+                [this](const LanguageChangedEvent&) {
+                    for (size_t i = 0; i < m_itemI18nKeys.size(); i++) {
+                        if (!m_itemI18nKeys[i].empty())
+                            m_items[i] = I18n::Get().T(m_itemI18nKeys[i]);
+                    }
+                });
+        }
+    }
+
+    void ClearItems() {
+        m_items.clear();
+        m_itemI18nKeys.clear();
+        m_scrollOffset = 0;
+        m_propSelectedIndex->Set(-1.0f);
+    }
 
     void Update(UIContext& ctx) override {
         if (!m_visible || m_items.empty()) return;
@@ -100,6 +126,9 @@ public:
 
 private:
     std::vector<std::string> m_items;
+    std::vector<std::string> m_itemI18nKeys;
+    bool m_langSubscribed = false;
+    Core::Connection m_langConnection;
     float m_itemHeight;
     float m_scrollOffset = 0.0f;
     Property<float>* m_propSelectedIndex;

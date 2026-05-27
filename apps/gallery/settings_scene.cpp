@@ -2,6 +2,7 @@
 #include "application.h"
 #include <core/scene/scene_manager.h>
 #include <gui/focus_manager.h>
+#include <gui/i18n/i18n.h>
 #include <imgui.h>
 #include <glm/gtc/matrix_transform.hpp>
 #include <spdlog/spdlog.h>
@@ -17,6 +18,7 @@ void SettingsScene::OnEnter() {
     m_root->SetDrawBackground(true, {0.12f, 0.14f, 0.20f, 0.95f});
 
     auto* title = new Label(101, {0, 0}, "Settings", Label::Role::Title);
+    title->SetI18nKey("settings.title");
     title->SetSize({360, 30});
 
     auto* brightnessLabel = new Label(102, {0, 0}, "Brightness: 80%");
@@ -26,7 +28,8 @@ void SettingsScene::OnEnter() {
     m_brightnessSlider->SetValue(80.0f);
     m_brightnessSlider->SetOnChanged([brightnessLabel](float val) {
         char buf[64];
-        snprintf(buf, sizeof(buf), "Brightness: %.0f%%", val);
+        snprintf(buf, sizeof(buf), "%s: %.0f%%",
+                 I18n::Get().T("settings.brightness").c_str(), val);
         brightnessLabel->SetText(buf);
     });
 
@@ -37,11 +40,13 @@ void SettingsScene::OnEnter() {
     volumeSlider->SetValue(50.0f);
     volumeSlider->SetOnChanged([volumeLabel](float val) {
         char buf[64];
-        snprintf(buf, sizeof(buf), "Volume: %.0f%%", val);
+        snprintf(buf, sizeof(buf), "%s: %.0f%%",
+                 I18n::Get().T("settings.volume").c_str(), val);
         volumeLabel->SetText(buf);
     });
 
     auto* backBtn = new Button(106, {0, 0}, {360, 45}, "< Back");
+    backBtn->SetI18nKey("btn.back");
     backBtn->SetOnClick([]() {
         spdlog::info("Back button clicked");
         Application::Get().GetSceneManager().Pop();

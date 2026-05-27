@@ -22,6 +22,7 @@ public:
     bool IsMouseDown() const { return m_mouseDown; }
     bool IsMousePressed() const { return m_mousePressed; }
     bool IsMouseReleased() const { return m_mouseReleased; }
+    float GetDeltaTime() const { return m_deltaTime; }
 
     void SetActive(int id) { m_activeId = id; }
     void SetHot(int id) { m_hotId = id; }
@@ -39,6 +40,8 @@ private:
     bool m_mouseDown = false;
     bool m_mousePressed = false;
     bool m_mouseReleased = false;
+
+    float m_deltaTime = 1.0f / 60.0f;
 
     int m_hotId = 0;
     int m_activeId = 0;

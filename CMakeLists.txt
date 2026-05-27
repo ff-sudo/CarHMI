@@ -5,6 +5,13 @@ set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 
+# Compiler warning flags (applied only to CarHMI targets via module macro)
+if(MSVC)
+    set(CARHMI_WARNING_FLAGS /W4 /wd4100 /wd4244 /wd4267)
+else()
+    set(CARHMI_WARNING_FLAGS -Wall -Wextra -Wpedantic -Wno-unused-parameter)
+endif()
+
 if(CMAKE_CXX_COMPILER_ID STREQUAL "Clang")
     add_definitions(-D__PRFCHWINTRIN_H)
 endif()
@@ -64,3 +71,10 @@ add_subdirectory(modules/pipeline)
 
 # === Applications ===
 add_subdirectory(apps/gallery)
+
+# === Tests ===
+option(CARHMI_BUILD_TESTS "Build unit tests" ON)
+if(CARHMI_BUILD_TESTS)
+    enable_testing()
+    add_subdirectory(tests)
+endif()

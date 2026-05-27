@@ -33,6 +33,11 @@ void UIContext::Init(RHI::BatchRenderer2D* renderer, RHI::Font* font) {
             }
         }));
 
+    m_connections.Add(Core::EventBus::Get().Subscribe<Core::AppTickEvent>(
+        [this](const Core::AppTickEvent& e) {
+            m_deltaTime = e.deltaTime;
+        }));
+
     spdlog::info("UIContext initialized (event bus)");
 }
 

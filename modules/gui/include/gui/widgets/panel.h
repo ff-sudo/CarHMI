@@ -9,10 +9,17 @@ class Panel : public Widget {
 public:
     Panel(int id, glm::vec2 pos, glm::vec2 size, glm::vec4 bgColor = {-1, -1, -1, -1})
         : Widget(id, pos, size) {
-        if (bgColor.r < 0)
+        if (bgColor.r < 0) {
             m_bgColor = ThemeManager::Get().GetTheme().panel.backgroundColor;
-        else
+        } else {
             m_bgColor = bgColor;
+            m_hasCustomColor = true;
+        }
+    }
+
+    void ApplyTheme() override {
+        if (!m_hasCustomColor)
+            m_bgColor = ThemeManager::Get().GetTheme().panel.backgroundColor;
     }
 
     void Draw(UIContext& ctx) override {
@@ -26,6 +33,7 @@ public:
 
 private:
     glm::vec4 m_bgColor;
+    bool m_hasCustomColor = false;
 };
 
 } // namespace CarHMI::GUI

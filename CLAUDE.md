@@ -103,11 +103,21 @@ cv.BeginPath(); cv.MoveTo(0, 0); cv.LineTo(50, 50); cv.StrokePath();
 
 ## 已知问题
 
-- LanguageChangedEvent 未被所有 Widget 订阅（仅 DashboardScene 的 Label/Button 接入了 i18n key，其他页面需手动接入）
-- Canvas FillPath 仅支持凸多边形（triangle fan）
-- TextInput 未实现文本选择/复制粘贴（基础版）
-- Theme 缺少统一的 accentColor 访问（TextInput 聚焦色硬编码）
+- Canvas FillPath 耳切算法对自交多边形可能失败
+- TextInput 未实现多行编辑
+- 部分 Gallery Demo 场景的 i18n 覆盖为简易版本（Slider 回调中拼接翻译 key）
+
+## 测试
+
+```bash
+# 构建并运行测试
+cmake --preset dev-win-cvte
+cmake --build build/dev-win --target carhmi_core_tests carhmi_gui_tests
+cd build/dev-win && ctest --output-on-failure
+```
+
+测试框架：GoogleTest v1.15（FetchContent），67 个测试用例覆盖 Core 和 GUI 模块。
 
 ## 第三方依赖
 
-SDL2, GLAD (OpenGL 3.3), GLM, spdlog, eventpp, ImGui, nlohmann/json, stb_image/stb_truetype, tinyobjloader, SheenBidi
+SDL2, GLAD (OpenGL 3.3), GLM, spdlog, eventpp, ImGui, nlohmann/json, stb_image/stb_truetype, tinyobjloader, SheenBidi, GoogleTest

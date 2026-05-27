@@ -2,6 +2,7 @@
 
 #include <core/event_bus.h>
 #include <core/event.h>
+#include <glm/glm.hpp>
 #include <vector>
 #include <spdlog/spdlog.h>
 #include <SDL.h>
@@ -44,6 +45,8 @@ private:
 
     Core::Connection m_keySub;
     Core::Connection m_scrollSub;
+    Core::Connection m_mouseMoveSub;
+    glm::vec2 m_lastMousePos = {0, 0};
 };
 
 } // namespace CarHMI::GUI

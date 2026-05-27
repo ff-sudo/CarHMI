@@ -1,5 +1,6 @@
 #include <gui/widget.h>
 #include <gui/focus_manager.h>
+#include <gui/style/theme_manager.h>
 
 namespace CarHMI::GUI {
 
@@ -27,7 +28,8 @@ void Widget::DrawFocusHighlight(UIContext& ctx) {
     if (!FocusManager::Get().IsFocused(m_id)) return;
 
     glm::vec2 abs = GetAbsolutePos();
-    glm::vec4 highlightColor = {0.3f, 0.7f, 1.0f, 0.7f};
+    glm::vec4 highlightColor = ThemeManager::Get().GetTheme().widget.accentColor;
+    highlightColor.a = 0.7f;
     float t = 2.0f;
 
     ctx.GetRenderer().DrawQuad({abs.x - t, abs.y - t}, {m_size.x + 2*t, t}, highlightColor);
@@ -49,7 +51,7 @@ bool Widget::Contains(glm::vec2 point) const {
 
 glm::vec2 Widget::GetAbsolutePos() const {
     if (m_parent)
-        return m_parent->GetAbsolutePos() + m_pos;
+        return m_parent->GetAbsolutePos() + m_pos + m_parent->m_scrollOffset;
     return m_pos;
 }
 
