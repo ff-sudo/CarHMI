@@ -1,0 +1,93 @@
+CMakeLists.txt
+  5e4d3ae76e8dff55 8-14,74-80
+tests/core/test_timer_manager.cpp
+  5e4d3ae76e8dff55 1-72
+modules/gui/include/gui/ui_context.h
+  5e4d3ae76e8dff55 25,44-45
+tests/core/test_event_bus.cpp
+  5e4d3ae76e8dff55 1-67
+modules/gui/include/gui/widget.h
+  5e4d3ae76e8dff55 91
+modules/gui/src/focus_manager.cpp
+  5e4d3ae76e8dff55 39-47
+apps/gallery/settings_scene.cpp
+  5e4d3ae76e8dff55 5,21,31-32,43-44,49
+tests/core/test_property.cpp
+  5e4d3ae76e8dff55 1-103
+modules/gui/include/gui/widgets/scroll_view.h
+  5e4d3ae76e8dff55 62,64,76-77,81
+tests/gui/test_box_layout.cpp
+  5e4d3ae76e8dff55 1-136
+modules/gui/include/gui/widgets/slider.h
+  5e4d3ae76e8dff55 21
+apps/gallery/widget_showcase_scene.cpp
+  5e4d3ae76e8dff55 5,23,30,56-58,71,76,87,102
+tests/core/CMakeLists.txt
+  5e4d3ae76e8dff55 1-22
+tests/core/test_binding.cpp
+  5e4d3ae76e8dff55 1-91
+tests/CMakeLists.txt
+  5e4d3ae76e8dff55 1-14
+modules/gui/include/gui/style/theme_loader.h
+  5e4d3ae76e8dff55 43-51
+modules/gui/include/gui/widgets/text_input.h
+  5e4d3ae76e8dff55 6,27,37,46-58,73,92,97,123,125-127,137-148,168-170,174-176,180,183-185,188,191-198,200-202,205-212,214-216,219-220,225-226,230-262,280-310,312-313,338-345,355,410-411,413
+cmake/CarHMIModule.cmake
+  5e4d3ae76e8dff55 33-37
+modules/gui/src/ui_context.cpp
+  5e4d3ae76e8dff55 36-40
+tests/core/test_animation.cpp
+  5e4d3ae76e8dff55 1-114
+tests/gui/test_insets.cpp
+  5e4d3ae76e8dff55 1-42
+apps/gallery/CMakeLists.txt
+  5e4d3ae76e8dff55 29-32
+CLAUDE.md
+  5e4d3ae76e8dff55 106-119,123
+tests/gui/CMakeLists.txt
+  5e4d3ae76e8dff55 1-18
+modules/gui/src/widget.cpp
+  5e4d3ae76e8dff55 3,31-32,54
+tests/gui/test_size_policy.cpp
+  5e4d3ae76e8dff55 1-18
+modules/gui/include/gui/widgets/list_widget.h
+  5e4d3ae76e8dff55 5-6,34-46,48-51,53-54,129-131
+tests/core/test_resource_manager.cpp
+  5e4d3ae76e8dff55 1-71
+modules/gui/include/gui/widgets/gauge.h
+  5e4d3ae76e8dff55 97-103
+modules/gui/include/gui/widgets/tab_bar.h
+  5e4d3ae76e8dff55 5,34-49,122-124
+modules/gui/include/gui/widgets/toggle.h
+  5e4d3ae76e8dff55 66-70,84
+modules/gui/include/gui/focus_manager.h
+  5e4d3ae76e8dff55 5,48-49
+modules/gui/include/gui/style/theme.h
+  5e4d3ae76e8dff55 96
+tests/core/test_connection.cpp
+  5e4d3ae76e8dff55 1-87
+modules/gui/include/gui/widgets/panel.h
+  5e4d3ae76e8dff55 12,14,16-22,36
+modules/gui/include/gui/canvas.h
+  5e4d3ae76e8dff55 8,140,142-194,229-240
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.1.8",
+  "base_commit_sha": "f3217545da06a4e3759955d7b6b33d101d1ca11a",
+  "prompts": {
+    "5e4d3ae76e8dff55": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "a50b23d1-35e7-4b0b-b04d-d980dc8ead3c",
+        "model": "deepseek-v4-flash"
+      },
+      "human_author": "hyp_cvte <hyp@cviauto.com>",
+      "messages": [],
+      "total_additions": 2965,
+      "total_deletions": 1784,
+      "accepted_lines": 1554,
+      "overriden_lines": 0
+    }
+  }
+}
