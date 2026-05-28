@@ -119,4 +119,13 @@ void FocusManager::SetFocusIndex(int idx) {
         m_focusIndex = idx;
 }
 
+void FocusManager::Shutdown() {
+    m_keySub.Disconnect();
+    m_scrollSub.Disconnect();
+    m_mouseMoveSub.Disconnect();
+    ClearAll();
+    m_initialized = false;
+    spdlog::info("FocusManager shutdown");
+}
+
 } // namespace CarHMI::GUI

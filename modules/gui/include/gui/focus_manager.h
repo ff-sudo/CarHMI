@@ -19,7 +19,7 @@ public:
     }
 
     void Init();
-
+    void Shutdown();
     void RegisterWidget(Widget* w);
     void UnregisterWidget(Widget* w);
     void ClearAll();

@@ -6,6 +6,7 @@ add_executable(carhmi_core_tests
     test_timer_manager.cpp
     test_resource_manager.cpp
     test_animation.cpp
+    test_scene_manager.cpp
 )
 
 target_link_libraries(carhmi_core_tests PRIVATE
