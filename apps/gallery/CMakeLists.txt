@@ -1,6 +1,7 @@
 add_executable(Gallery
     main.cpp
     application.cpp
+    crash_handler.cpp
     dashboard_scene.cpp
     settings_scene.cpp
     widget_showcase_scene.cpp
@@ -27,6 +28,11 @@ target_link_libraries(Gallery PRIVATE
     SDL2::SDL2-static
     SDL2::SDL2main
 )
+
+if(CARHMI_CRASH_HANDLER AND TARGET backward)
+    target_compile_definitions(Gallery PRIVATE CARHMI_USE_BACKWARD)
+    target_link_libraries(Gallery PRIVATE backward)
+endif()
 
 if(CARHMI_WARNING_FLAGS)
     target_compile_options(Gallery PRIVATE ${CARHMI_WARNING_FLAGS})

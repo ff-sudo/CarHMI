@@ -1,4 +1,5 @@
 #include "application.h"
+#include "crash_handler.h"
 #include <core/scene/scene_manager.h>
 #include "dashboard_scene.h"
 #include <gui/style/theme_manager.h>
@@ -36,6 +37,8 @@ protected:
 };
 
 int main(int argc, char* argv[]) {
+    Gallery::InstallCrashHandler();
+
     auto console_sink = std::make_shared<spdlog::sinks::stdout_color_sink_mt>();
     auto file_sink = std::make_shared<spdlog::sinks::basic_file_sink_mt>("carhmi.log", true);
     auto logger = std::make_shared<spdlog::logger>("CarHMI",

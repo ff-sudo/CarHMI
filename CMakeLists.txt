@@ -4,6 +4,7 @@ project(CarHMI VERSION 0.2.9 LANGUAGES C CXX)
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
+set(CMAKE_POLICY_VERSION_MINIMUM 3.5)  # for backward-cpp (requires CMake < 3.5 compat)
 
 # Compiler warning flags (applied only to CarHMI targets via module macro)
 if(MSVC)
@@ -56,6 +57,19 @@ add_library(sheenbidi STATIC third_party/SheenBidi/Source/SheenBidi.c)
 target_include_directories(sheenbidi PUBLIC third_party/SheenBidi/Headers)
 target_include_directories(sheenbidi PRIVATE third_party/SheenBidi/Source)
 target_compile_definitions(sheenbidi PRIVATE SB_CONFIG_UNITY)
+
+# backward-cpp — cross-platform stack trace on crash
+option(CARHMI_CRASH_HANDLER "Enable backward-cpp crash handler" ON)
+if(CARHMI_CRASH_HANDLER)
+    include(FetchContent)
+    FetchContent_Declare(
+        backward
+        GIT_REPOSITORY https://github.com/bombela/backward-cpp.git
+        GIT_TAG        v1.6
+    )
+    set(BACKWARD_TESTS OFF CACHE BOOL "" FORCE)
+    FetchContent_MakeAvailable(backward)
+endif()
 
 # === Modules (order matters for dependencies) ===
 add_subdirectory(modules/core)
