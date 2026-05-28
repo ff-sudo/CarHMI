@@ -1,0 +1,7 @@
+{
+  "cmake.generator": "Ninja",
+  "cmake.configurePresets": ["dev-win-cvte", "dev-win", "dev-linux", "release"],
+  "cmake.buildPresets": ["dev-win-cvte", "dev-win", "dev-linux", "release"],
+  "cmake.defaultConfigurePreset": "dev-win-cvte",
+  "cmake.defaultBuildPreset": "dev-win-cvte"
+}

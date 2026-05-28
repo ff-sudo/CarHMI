@@ -22,6 +22,14 @@
       }
     },
     {
+      "name": "ci-win",
+      "displayName": "CI (Windows)",
+      "inherits": "dev-win",
+      "cacheVariables": {
+        "CARHMI_BUILD_TESTS": "ON"
+      }
+    },
+    {
       "name": "release",
       "displayName": "Release",
       "generator": "Ninja",
@@ -32,6 +40,10 @@
     }
   ],
   "buildPresets": [
+    {
+      "name": "ci-win",
+      "configurePreset": "ci-win"
+    },
     {
       "name": "dev-win",
       "configurePreset": "dev-win"

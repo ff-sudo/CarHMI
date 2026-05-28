@@ -1,0 +1,53 @@
+---
+Language:        Cpp
+BasedOnStyle:    LLVM
+# 4-space indent (matching project convention)
+IndentWidth:     4
+TabWidth:        4
+UseTab:          Never
+# Allman brace style (brace on own line)
+BreakBeforeBraces: Allman
+# C++17
+Standard:        c++17
+# 120-char line limit
+ColumnLimit:     120
+# Pointer/reference alignment
+DerivePointerAlignment: false
+PointerAlignment: Left
+# Include sorting
+SortIncludes:    true
+IncludeBlocks:   Preserve
+# Don't break after control statements (if, for, while) if short
+AllowShortIfStatementsOnASingleLine: false
+AllowShortLoopsOnASingleLine: false
+# Keep namespace indentation
+NamespaceIndentation: None
+# Trailing comments alignment
+AlignTrailingComments: false
+# Ensure newline at EOF
+InsertNewlineAtEOF: true
+# Spaces
+SpaceAfterCStyleCast: true
+SpacesInAngles: false
+SpaceBeforeParens: ControlStatements
+
+# Custom include categories: project headers first, then third-party
+IncludeCategories:
+  - Regex:    '^"(platform_factory|application|dashboard_scene|settings_scene|widget_showcase_scene|scene_3d_demo|render_demo_scene|layout_demo_scene|timer_demo_scene|canvas_demo_scene|scroll_demo_scene|textinput_demo_scene)\.h"'
+    Priority:  1
+  - Regex:    '^<gui/'
+    Priority:  2
+  - Regex:    '^<core/'
+    Priority:  2
+  - Regex:    '^<rhi/'
+    Priority:  2
+  - Regex:    '^<pal/'
+    Priority:  2
+  - Regex:    '^<renderer3d/'
+    Priority:  2
+  - Regex:    '^<glm/'
+    Priority:  3
+  - Regex:    '^<SDL\.h>'
+    Priority:  4
+  - Regex:    '^<'
+    Priority:  5

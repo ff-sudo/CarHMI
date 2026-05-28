@@ -93,8 +93,6 @@
 - Dashboard 按钮从单行改为 2×3 网格布局，按钮宽度自动填充
   - EditInsets / EditWidget / EditBoxLayout / ShowWidgetTree
 - **LayoutDemoScene**：交互式布局调参 Demo（ImGui 实时编辑 padding/margin/sizePolicy）
-
-### Changed
 - BoxLayout::Recalculate() 支持子控件 margin 和 SizePolicy
 
 ---
