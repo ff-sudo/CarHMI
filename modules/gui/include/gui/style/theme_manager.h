@@ -39,7 +39,9 @@ public:
         Core::EventBus::Get().Post(Core::ThemeChangedEvent{m_activeThemeName.c_str()});
     }
 
-    const Theme& GetTheme() const { return *m_activeTheme; }
+    const Theme& GetTheme() const {
+        return m_activeTheme ? *m_activeTheme : m_defaultTheme;
+    }
     const std::string& GetActiveThemeName() const { return m_activeThemeName; }
 
     void CheckHotReload() {

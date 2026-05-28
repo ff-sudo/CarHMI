@@ -4,7 +4,7 @@
 
 ---
 
-## 当前版本：v0.2.0（架构重构）✅
+## 当前版本：v0.2.9（M1 全部完成）✅
 
 ---
 
@@ -19,8 +19,8 @@
 | 1.3 | ~~渲染增强：圆角矩形、裁剪区域（Scissor）~~ | RHI | ✅ |
 | 1.4 | ~~ScrollView 控件~~ | GUI | ✅ |
 | 1.5 | ~~TextInput 控件~~ | GUI | ✅ |
-| 1.6 | ImageView 控件（支持背景图） | GUI | P2 |
-| 1.7 | Dialog/Toast 弹窗系统 | GUI | P2 |
+| 1.6 | ~~ImageView 控件（支持背景图）~~ | GUI | ✅ |
+| 1.7 | ~~Dialog/Toast 弹窗系统~~ | GUI | ✅ |
 | 1.8 | ~~定时器/调度器（setTimeout/setInterval 语义）~~ | Core | ✅ |
 | 1.9 | ~~布局增强：Margin/Padding 统一模型 + 百分比尺寸~~ | GUI | ✅ |
 | 1.10 | ~~Canvas 自绘 API 基础版（DrawRoundRect/DrawPath）~~ | RHI/GUI | ✅ |

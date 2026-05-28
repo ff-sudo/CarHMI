@@ -7,6 +7,26 @@
 
 ---
 
+## [0.2.9] - 2026-05-28
+
+### Added
+- **ImageView 控件**（`gui/widgets/image_view.h`）：图片显示控件
+  - 支持 Fit/Fill/Cover 三种缩放模式
+  - 外部管理纹理生命周期（`SetTexture`）
+  - 支持 Tint 颜色叠加 + 自定义背景色
+- **Dialog 弹窗**（`gui/widgets/dialog.h`）：模态对话框
+  - 标题 + 消息体 + 可变数量按钮
+  - 自定义圆角半径、i18n 支持
+- **Toast 通知**（`gui/widgets/dialog.h`）：轻量级通知提示
+  - Info/Success/Warning/Error 四种类型
+  - 自动倒计时隐藏 + 滑入动画
+
+### Changed
+- ThemeManager::GetTheme() 增加空指针保护（测试环境无主题时返回默认值）
+- FocusManager 新增 Shutdown() 方法，支持测试中安全重置
+- 测试用例从 67 个增长到 142 个（SceneManager/FocusManager/I18n/BiDi/Widget/ImageView/Dialog/Toast）
+
+---
 ## [0.2.8] - 2026-05-21
 
 ### Added

@@ -105,7 +105,6 @@ cv.BeginPath(); cv.MoveTo(0, 0); cv.LineTo(50, 50); cv.StrokePath();
 
 - Canvas FillPath 耳切算法对自交多边形可能失败
 - TextInput 未实现多行编辑
-- 部分 Gallery Demo 场景的 i18n 覆盖为简易版本（Slider 回调中拼接翻译 key）
 
 ## 测试
 
@@ -116,7 +115,7 @@ cmake --build build/dev-win --target carhmi_core_tests carhmi_gui_tests
 cd build/dev-win && ctest --output-on-failure
 ```
 
-测试框架：GoogleTest v1.15（FetchContent），124 个测试用例覆盖 Core 和 GUI 模块。
+测试框架：GoogleTest v1.15（FetchContent），142 个测试用例覆盖 Core 和 GUI 模块。
 
 ## 第三方依赖
 

@@ -6,6 +6,9 @@ add_executable(carhmi_gui_tests
     test_i18n.cpp
     test_bidi.cpp
     test_widget.cpp
+    test_image_view.cpp
+    test_dialog.cpp
+    test_toast.cpp
 )
 
 target_compile_definitions(carhmi_gui_tests PRIVATE
