@@ -54,18 +54,30 @@ struct DialogDemoScene::Impl {
 
     void HideDialog() {
         if (overlayPanel) {
+            overlayPanel->SetVisible(false);  // hide immediately, defer deletion
+            pendingOverlayRemoval = true;
+        }
+    }
+
+    void FlushPendingRemoval() {
+        if (pendingOverlayRemoval && overlayPanel) {
             root->RemoveChild(overlayPanel);
             delete overlayPanel;
             overlayPanel = nullptr;
             activeDialog = nullptr;
+            pendingOverlayRemoval = false;
+        }
+        if (pendingToastRemoval && activeToast) {
+            root->RemoveChild(activeToast);
+            delete activeToast;
+            activeToast = nullptr;
+            pendingToastRemoval = false;
         }
     }
 
     void ShowToast(const std::string& msg, ToastType type) {
-        if (activeToast) {
-            root->RemoveChild(activeToast);
-            delete activeToast;
-        }
+        if (activeToast)
+            activeToast->Hide();  // let animation finish, then will be cleaned up later
 
         activeToast = new Toast(300, {200, 620}, {400, 40}, msg);
         activeToast->SetType(type);
@@ -76,6 +88,9 @@ struct DialogDemoScene::Impl {
         if (statusLabel)
             statusLabel->SetText("Toast: " + msg);
     }
+
+    bool pendingOverlayRemoval = false;
+    bool pendingToastRemoval = false;
 
     std::string dialogText;
     int toastType = 0;
@@ -187,6 +202,7 @@ void DialogDemoScene::OnExit() {
 }
 
 void DialogDemoScene::OnUpdate(float dt) {
+    if (m) m->FlushPendingRemoval();  // safe: called before traversal, no iterator invalidation
     auto& ctx = Application::Get().GetUIContext();
     if (m && m->root) m->root->Update(ctx);
 }
