@@ -45,6 +45,7 @@ int main(int argc, char* argv[]) {
         spdlog::sinks_init_list{console_sink, file_sink});
     spdlog::set_default_logger(logger);
     spdlog::set_level(spdlog::level::debug);
+    spdlog::flush_on(spdlog::level::info);  // flush every message to disk immediately
     spdlog::set_pattern("[%H:%M:%S.%e] [%^%l%$] %v");
 
     GalleryApp app;
