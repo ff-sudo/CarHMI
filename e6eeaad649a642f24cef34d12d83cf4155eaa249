@@ -1,0 +1,23 @@
+apps/gallery/dialog_demo_scene.cpp
+  5e4d3ae76e8dff55 57-63,68,70,73-74,76,78-80,92-93,205
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.1.8",
+  "base_commit_sha": "e6eeaad649a642f24cef34d12d83cf4155eaa249",
+  "prompts": {
+    "5e4d3ae76e8dff55": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "a50b23d1-35e7-4b0b-b04d-d980dc8ead3c",
+        "model": "deepseek-v4-flash"
+      },
+      "human_author": "hyp_cvte <hyp@cviauto.com>",
+      "messages": [],
+      "total_additions": 20,
+      "total_deletions": 4,
+      "accepted_lines": 20,
+      "overriden_lines": 0
+    }
+  }
+}
