@@ -39,8 +39,11 @@ protected:
 int main(int argc, char* argv[]) {
     Gallery::InstallCrashHandler();
 
+    // Absolute log path next to exe (not relative to CWD)
+    std::string logPath = Gallery::GetExeDirectory() + "\\carhmi.log";
+
     auto console_sink = std::make_shared<spdlog::sinks::stdout_color_sink_mt>();
-    auto file_sink = std::make_shared<spdlog::sinks::basic_file_sink_mt>("carhmi.log", true);
+    auto file_sink = std::make_shared<spdlog::sinks::basic_file_sink_mt>(logPath, true);
     auto logger = std::make_shared<spdlog::logger>("CarHMI",
         spdlog::sinks_init_list{console_sink, file_sink});
     spdlog::set_default_logger(logger);
