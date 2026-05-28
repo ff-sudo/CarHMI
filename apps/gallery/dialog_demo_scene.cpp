@@ -47,8 +47,8 @@ struct DialogDemoScene::Impl {
     }
 
     void Cleanup() {
-        if (overlayPanel) { root->RemoveChild(overlayPanel); delete overlayPanel; overlayPanel = nullptr; }
-        if (activeToast)  { root->RemoveChild(activeToast);  delete activeToast;  activeToast = nullptr; }
+        if (overlayPanel) { delete overlayPanel; overlayPanel = nullptr; }
+        if (activeToast)  { delete activeToast;  activeToast = nullptr; }
         activeDialog = nullptr;
     }
 
@@ -73,10 +73,12 @@ private:
     void DoShowDialog(const std::string& title, const std::string& msg) {
         DoHideDialog(); // clean up any existing dialog
 
+        // Overlay is NOT added to the BoxLayout — it's drawn/updated separately
         overlayPanel = new BoxLayout(200, {0, 0}, {800, 700}, BoxDirection::Vertical, 0, 0);
         overlayPanel->SetDrawBackground(true, {0.0f, 0.0f, 0.0f, 0.4f});
 
-        auto* dialog = new Dialog(201, {150, 200}, {500, 300}, title, msg);
+        // Dialog centered
+        auto* dialog = new Dialog(201, {150, 200}, {500, 250}, title, msg);
         dialog->SetCornerRadius(10.0f);
 
         dialog->AddButton("Cancel", [this]() {
@@ -89,13 +91,11 @@ private:
         });
 
         overlayPanel->AddChild(dialog);
-        root->AddChild(overlayPanel);
         activeDialog = dialog;
     }
 
     void DoHideDialog() {
         if (!overlayPanel) return;
-        root->RemoveChild(overlayPanel);
         delete overlayPanel;
         overlayPanel = nullptr;
         activeDialog = nullptr;
@@ -103,13 +103,11 @@ private:
 
     void DoShowToast(const std::string& msg, ToastType type) {
         if (activeToast) {
-            root->RemoveChild(activeToast);
             delete activeToast;
         }
         activeToast = new Toast(300, {200, 620}, {400, 40}, msg);
         activeToast->SetType(type);
         activeToast->SetDuration(2.5f);
-        root->AddChild(activeToast);
         activeToast->Show();
         if (statusLabel) statusLabel->SetText("Toast: " + msg);
     }
@@ -221,9 +219,10 @@ void DialogDemoScene::OnExit() {
 }
 
 void DialogDemoScene::OnUpdate(float dt) {
-    if (m) m->FlushPending();  // safe: called before traversal, no iterator invalidation
+    if (m) m->FlushPending();
     auto& ctx = Application::Get().GetUIContext();
     if (m && m->root) m->root->Update(ctx);
+    if (m && m->overlayPanel) m->overlayPanel->Update(ctx);
 }
 
 void DialogDemoScene::OnDraw() {
@@ -233,6 +232,9 @@ void DialogDemoScene::OnDraw() {
     app.GetRenderer().Begin(proj);
     auto& ctx = app.GetUIContext();
     if (m && m->root) m->root->Draw(ctx);
+    // Overlay + Toast drawn ON TOP (independent of BoxLayout)
+    if (m && m->overlayPanel) m->overlayPanel->Draw(ctx);
+    if (m && m->activeToast) m->activeToast->Draw(ctx);
     app.GetRenderer().End();
 }
 
