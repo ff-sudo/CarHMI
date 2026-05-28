@@ -6,7 +6,8 @@
 namespace CarHMI::Gallery {
 
 void InstallCrashHandler() {
-    static backward::SignalHandling sh; // installs signal / SEH handlers
+    // Stack trace goes to stderr AND crash.log (avoids spdlog dependency during crash)
+    static backward::SignalHandling sh("crash.log");
 }
 
 } // namespace CarHMI::Gallery
