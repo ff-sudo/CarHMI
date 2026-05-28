@@ -24,76 +24,100 @@ struct DialogDemoScene::Impl {
     Label* statusLabel = nullptr;
     BoxLayout* overlayPanel = nullptr;
 
-    void ShowDialog(const std::string& title, const std::string& msg) {
-        HideDialog();
+    // === Safe deferred operations (all run at start of next OnUpdate) ===
 
-        // Overlay (semi-transparent full-screen background)
+    void RequestShowDialog(const std::string& title, const std::string& msg) {
+        // Defer so AddChild / Recalculate don't run during Widget::Update iteration
+        pendingAction = Action::ShowDialog;
+        pendingTitle = title;
+        pendingMsg = msg;
+    }
+
+    void RequestHideDialog() {
+        if (overlayPanel) {
+            overlayPanel->SetVisible(false);
+            pendingAction = Action::HideDialog;
+        }
+    }
+
+    void RequestShowToast(const std::string& msg, ToastType type) {
+        pendingAction = Action::ShowToast;
+        pendingToastMsg = msg;
+        pendingToastType = type;
+    }
+
+    void Cleanup() {
+        if (overlayPanel) { root->RemoveChild(overlayPanel); delete overlayPanel; overlayPanel = nullptr; }
+        if (activeToast)  { root->RemoveChild(activeToast);  delete activeToast;  activeToast = nullptr; }
+        activeDialog = nullptr;
+    }
+
+    void FlushPending() {
+        switch (pendingAction) {
+        case Action::ShowDialog:
+            DoShowDialog(pendingTitle, pendingMsg);
+            break;
+        case Action::HideDialog:
+            DoHideDialog();
+            break;
+        case Action::ShowToast:
+            DoShowToast(pendingToastMsg, pendingToastType);
+            break;
+        case Action::None:
+            break;
+        }
+        pendingAction = Action::None;
+    }
+
+private:
+    void DoShowDialog(const std::string& title, const std::string& msg) {
+        DoHideDialog(); // clean up any existing dialog
+
         overlayPanel = new BoxLayout(200, {0, 0}, {800, 700}, BoxDirection::Vertical, 0, 0);
         overlayPanel->SetDrawBackground(true, {0.0f, 0.0f, 0.0f, 0.4f});
 
-        // Center dialog
         auto* dialog = new Dialog(201, {150, 200}, {500, 300}, title, msg);
         dialog->SetCornerRadius(10.0f);
 
         dialog->AddButton("Cancel", [this]() {
-            HideDialog();
-            if (statusLabel)
-                statusLabel->SetText("Dialog: cancelled");
+            RequestHideDialog();
+            if (statusLabel) statusLabel->SetText("Dialog: cancelled");
         });
         dialog->AddButton("OK", [this]() {
-            HideDialog();
-            if (statusLabel)
-                statusLabel->SetText("Dialog: confirmed");
+            RequestHideDialog();
+            if (statusLabel) statusLabel->SetText("Dialog: confirmed");
         });
 
         overlayPanel->AddChild(dialog);
         root->AddChild(overlayPanel);
-
         activeDialog = dialog;
     }
 
-    void HideDialog() {
-        if (overlayPanel) {
-            overlayPanel->SetVisible(false);  // hide immediately, defer deletion
-            pendingOverlayRemoval = true;
-        }
+    void DoHideDialog() {
+        if (!overlayPanel) return;
+        root->RemoveChild(overlayPanel);
+        delete overlayPanel;
+        overlayPanel = nullptr;
+        activeDialog = nullptr;
     }
 
-    void FlushPendingRemoval() {
-        if (pendingOverlayRemoval && overlayPanel) {
-            root->RemoveChild(overlayPanel);
-            delete overlayPanel;
-            overlayPanel = nullptr;
-            activeDialog = nullptr;
-            pendingOverlayRemoval = false;
-        }
-        if (pendingToastRemoval && activeToast) {
+    void DoShowToast(const std::string& msg, ToastType type) {
+        if (activeToast) {
             root->RemoveChild(activeToast);
             delete activeToast;
-            activeToast = nullptr;
-            pendingToastRemoval = false;
         }
-    }
-
-    void ShowToast(const std::string& msg, ToastType type) {
-        if (activeToast)
-            activeToast->Hide();  // let animation finish, then will be cleaned up later
-
         activeToast = new Toast(300, {200, 620}, {400, 40}, msg);
         activeToast->SetType(type);
         activeToast->SetDuration(2.5f);
         root->AddChild(activeToast);
         activeToast->Show();
-
-        if (statusLabel)
-            statusLabel->SetText("Toast: " + msg);
+        if (statusLabel) statusLabel->SetText("Toast: " + msg);
     }
 
-    bool pendingOverlayRemoval = false;
-    bool pendingToastRemoval = false;
-
-    std::string dialogText;
-    int toastType = 0;
+    enum class Action { None, ShowDialog, HideDialog, ShowToast };
+    Action pendingAction = Action::None;
+    std::string pendingTitle, pendingMsg, pendingToastMsg;
+    ToastType pendingToastType = ToastType::Info;
 };
 
 void DialogDemoScene::OnEnter() {
@@ -123,26 +147,22 @@ void DialogDemoScene::OnEnter() {
 
     auto* alertBtn = new Button(12, {0, 0}, {160, 42}, "Alert");
     alertBtn->SetOnClick([this]() {
-        m->ShowDialog("Alert", "This is an alert message.\nPlease acknowledge.");
+        m->RequestShowDialog("Alert", "This is an alert message.\nPlease acknowledge.");
     });
 
     auto* confirmBtn = new Button(13, {0, 0}, {160, 42}, "Confirm");
     confirmBtn->SetOnClick([this]() {
-        m->ShowDialog("Confirm", "Are you sure you want to proceed?\nThis action cannot be undone.");
+        m->RequestShowDialog("Confirm", "Are you sure you want to proceed?");
     });
 
     auto* multiBtn = new Button(14, {0, 0}, {160, 42}, "Multi-Button");
     multiBtn->SetOnClick([this]() {
-        m->ShowDialog("Save Changes", "Do you want to save before closing?");
-        m->activeDialog->AddButton("Don't Save", [this]() {
-            m->HideDialog();
-            m->statusLabel->SetText("Dialog: not saved");
-        });
+        m->RequestShowDialog("Save Changes", "Do you want to save before closing?");
     });
 
     auto* closeBtn = new Button(15, {0, 0}, {160, 42}, "Close");
     closeBtn->SetOnClick([this]() {
-        m->HideDialog();
+        m->RequestHideDialog();
     });
 
     dlgBtnRow->AddChild(alertBtn);
@@ -157,16 +177,16 @@ void DialogDemoScene::OnEnter() {
     auto* toastBtnRow = new HBoxLayout(21, {0, 0}, {700, 42}, 0, 10);
 
     auto* infoToast = new Button(22, {0, 0}, {110, 42}, "Info");
-    infoToast->SetOnClick([this]() { m->ShowToast("Information message", ToastType::Info); });
+    infoToast->SetOnClick([this]() { m->RequestShowToast("Information message", ToastType::Info); });
 
     auto* successToast = new Button(23, {0, 0}, {110, 42}, "Success");
-    successToast->SetOnClick([this]() { m->ShowToast("Operation completed!", ToastType::Success); });
+    successToast->SetOnClick([this]() { m->RequestShowToast("Operation completed!", ToastType::Success); });
 
     auto* warnToast = new Button(24, {0, 0}, {110, 42}, "Warning");
-    warnToast->SetOnClick([this]() { m->ShowToast("Low battery warning", ToastType::Warning); });
+    warnToast->SetOnClick([this]() { m->RequestShowToast("Low battery warning", ToastType::Warning); });
 
     auto* errorToast = new Button(25, {0, 0}, {110, 42}, "Error");
-    errorToast->SetOnClick([this]() { m->ShowToast("Connection failed!", ToastType::Error); });
+    errorToast->SetOnClick([this]() { m->RequestShowToast("Connection failed!", ToastType::Error); });
 
     toastBtnRow->AddChild(infoToast);
     toastBtnRow->AddChild(successToast);
@@ -194,15 +214,14 @@ void DialogDemoScene::OnEnter() {
 }
 
 void DialogDemoScene::OnExit() {
-    m->HideDialog();
-    m->HideDialog(); // also cleans up toast
+    m->Cleanup();
     delete m->root;
     delete m;
     m = nullptr;
 }
 
 void DialogDemoScene::OnUpdate(float dt) {
-    if (m) m->FlushPendingRemoval();  // safe: called before traversal, no iterator invalidation
+    if (m) m->FlushPending();  // safe: called before traversal, no iterator invalidation
     auto& ctx = Application::Get().GetUIContext();
     if (m && m->root) m->root->Update(ctx);
 }
@@ -224,7 +243,7 @@ void DialogDemoScene::OnImGui() {
     ImGui::Separator();
     if (ImGui::Button("Show Info Toast (code)")) {
         ImGui::Text("Toast sent!");
-        m->ShowToast("Hello from ImGui!", ToastType::Info);
+        m->RequestShowToast("Hello from ImGui!", ToastType::Info);
     }
     ImGui::End();
 }
