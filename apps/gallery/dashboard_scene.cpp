@@ -8,6 +8,8 @@
 #include "canvas_demo_scene.h"
 #include "scroll_demo_scene.h"
 #include "textinput_demo_scene.h"
+#include "image_view_demo_scene.h"
+#include "dialog_demo_scene.h"
 #include "application.h"
 #include <core/property/binding.h>
 #include <core/scene/scene_manager.h>
@@ -27,7 +29,7 @@ using namespace CarHMI::GUI;
 using namespace CarHMI::RHI;
 
 void DashboardScene::OnEnter() {
-    m_root = new BoxLayout(1, {50, 50}, {400, 500}, BoxDirection::Vertical, 20, 12);
+    m_root = new BoxLayout(1, {50, 50}, {400, 580}, BoxDirection::Vertical, 20, 12);
     m_root->SetDrawBackgroundFromTheme(true);
 
     auto& i = I18n::Get();
@@ -54,11 +56,12 @@ void DashboardScene::OnEnter() {
     m_fuelBar->SetValue(0.75f);
     m_fuelBar->SetColors({0.9f, 0.7f, 0.1f, 1.0f}, {0.2f, 0.2f, 0.25f, 1.0f});
 
-    auto* btnGrid = new BoxLayout(20, {0, 0}, {360, 130}, BoxDirection::Vertical, 0, 4);
+    auto* btnGrid = new BoxLayout(20, {0, 0}, {360, 180}, BoxDirection::Vertical, 0, 4);
 
     auto* btnRow1 = new HBoxLayout(21, {0, 0}, {360, 40}, 0, 4);
     auto* btnRow2 = new HBoxLayout(22, {0, 0}, {360, 40}, 0, 4);
     auto* btnRow3 = new HBoxLayout(23, {0, 0}, {360, 40}, 0, 4);
+    auto* btnRow4 = new HBoxLayout(24, {0, 0}, {360, 40}, 0, 4);
 
     auto* settingsBtn = new Button(8, {0, 0}, {50, 40}, i.T("btn.settings"));
     settingsBtn->SetI18nKey("btn.settings");
@@ -120,6 +123,18 @@ void DashboardScene::OnEnter() {
         Application::Get().GetSceneManager().Push(std::make_unique<TextInputDemoScene>());
     });
 
+    auto* imageBtn = new Button(25, {0, 0}, {50, 40}, "Image");
+    imageBtn->SetFillWidth();
+    imageBtn->SetOnClick([]() {
+        Application::Get().GetSceneManager().Push(std::make_unique<ImageViewDemoScene>());
+    });
+
+    auto* dialogBtn = new Button(26, {0, 0}, {50, 40}, "Dialog");
+    dialogBtn->SetFillWidth();
+    dialogBtn->SetOnClick([]() {
+        Application::Get().GetSceneManager().Push(std::make_unique<DialogDemoScene>());
+    });
+
     btnRow1->AddChild(settingsBtn);
     btnRow1->AddChild(widgetsBtn);
     btnRow1->AddChild(btn3D);
@@ -129,10 +144,13 @@ void DashboardScene::OnEnter() {
     btnRow3->AddChild(canvasBtn);
     btnRow3->AddChild(scrollBtn);
     btnRow3->AddChild(inputBtn);
-    btnRow3->AddChild(resetBtn);
+    btnRow4->AddChild(imageBtn);
+    btnRow4->AddChild(dialogBtn);
+    btnRow4->AddChild(resetBtn);
     btnGrid->AddChild(btnRow1);
     btnGrid->AddChild(btnRow2);
     btnGrid->AddChild(btnRow3);
+    btnGrid->AddChild(btnRow4);
 
     m_statusLabel = new Label(10, {0, 0}, i.T("status.ready"), Label::Role::Subtitle);
     m_statusLabel->SetSize({360, 25});

@@ -11,6 +11,8 @@ add_executable(Gallery
     canvas_demo_scene.cpp
     scroll_demo_scene.cpp
     textinput_demo_scene.cpp
+    image_view_demo_scene.cpp
+    dialog_demo_scene.cpp
 )
 
 target_link_libraries(Gallery PRIVATE

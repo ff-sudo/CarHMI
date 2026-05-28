@@ -39,6 +39,7 @@ public:
     void DrawFocusHighlight(UIContext& ctx);
 
     void AddChild(Widget* child);
+    void RemoveChild(Widget* child);
     bool Contains(glm::vec2 point) const;
 
     void SubscribeThemeChange();

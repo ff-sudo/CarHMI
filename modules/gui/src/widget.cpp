@@ -1,6 +1,7 @@
 #include <gui/widget.h>
 #include <gui/focus_manager.h>
 #include <gui/style/theme_manager.h>
+#include <algorithm>
 
 namespace CarHMI::GUI {
 
@@ -41,6 +42,14 @@ void Widget::DrawFocusHighlight(UIContext& ctx) {
 void Widget::AddChild(Widget* child) {
     child->m_parent = this;
     m_children.push_back(child);
+}
+
+void Widget::RemoveChild(Widget* child) {
+    auto it = std::find(m_children.begin(), m_children.end(), child);
+    if (it != m_children.end()) {
+        (*it)->m_parent = nullptr;
+        m_children.erase(it);
+    }
 }
 
 bool Widget::Contains(glm::vec2 point) const {
