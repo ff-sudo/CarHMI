@@ -116,7 +116,7 @@ cmake --build build/dev-win --target carhmi_core_tests carhmi_gui_tests
 cd build/dev-win && ctest --output-on-failure
 ```
 
-测试框架：GoogleTest v1.15（FetchContent），67 个测试用例覆盖 Core 和 GUI 模块。
+测试框架：GoogleTest v1.15（FetchContent），124 个测试用例覆盖 Core 和 GUI 模块。
 
 ## 第三方依赖
 
