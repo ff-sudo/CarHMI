@@ -1,0 +1,37 @@
+apps/gallery/dialog_demo_scene.cpp
+  5e4d3ae76e8dff55 1-216
+apps/gallery/dashboard_scene.cpp
+  5e4d3ae76e8dff55 11-12,32,59,64,126-137,147-149,153
+modules/gui/include/gui/widget.h
+  5e4d3ae76e8dff55 42
+modules/gui/src/widget.cpp
+  5e4d3ae76e8dff55 4,47-54
+apps/gallery/dialog_demo_scene.h
+  5e4d3ae76e8dff55 1-17
+apps/gallery/CMakeLists.txt
+  5e4d3ae76e8dff55 14-15
+apps/gallery/image_view_demo_scene.h
+  5e4d3ae76e8dff55 1-17
+apps/gallery/image_view_demo_scene.cpp
+  5e4d3ae76e8dff55 1-154
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.1.8",
+  "base_commit_sha": "94009d4d784e94959de4f2c5978cffdbaf42a922",
+  "prompts": {
+    "5e4d3ae76e8dff55": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "a50b23d1-35e7-4b0b-b04d-d980dc8ead3c",
+        "model": "deepseek-v4-flash"
+      },
+      "human_author": "hyp_cvte <hyp@cviauto.com>",
+      "messages": [],
+      "total_additions": 927,
+      "total_deletions": 493,
+      "accepted_lines": 510,
+      "overriden_lines": 0
+    }
+  }
+}
