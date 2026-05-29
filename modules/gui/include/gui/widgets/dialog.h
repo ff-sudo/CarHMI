@@ -28,17 +28,12 @@ public:
     }
 
     void AddButton(const std::string& text, std::function<void()> onClick, bool /*isPrimary*/ = false) {
-        int btnId = m_id * 100 + (int)m_buttons.size() + 1;
+        int btnId = m_id * 100 + (int)m_buttons.size() + 10;
         auto* btn = new Button(btnId, {0, 0}, {80, 36}, text);
         btn->SetOnClick(onClick);
+        btn->SetFillWidth();  // let HBoxLayout distribute width evenly
         m_buttons.push_back(btn);
         m_buttonRow->AddChild(btn);
-
-        // Evenly distribute button widths
-        float btnW = (m_size.x - 40.0f - m_spacing * (float)(m_buttons.size() - 1)) / (float)m_buttons.size();
-        btnW = std::max(btnW, 60.0f);
-        for (auto* b : m_buttons)
-            b->SetSize({btnW, 36});
     }
 
     void SetTitle(const std::string& title) {
@@ -71,8 +66,8 @@ public:
             renderer.DrawQuad(abs, m_size, m_bgColor);
 
         // Title separator line
-        float titleH = 40.0f;
-        glm::vec4 sepColor = m_bgColor + glm::vec4(0.08f, 0.08f, 0.08f, 0.0f);
+        float titleH = 35.0f;
+        glm::vec4 sepColor = {1.0f, 1.0f, 1.0f, 0.1f};
         renderer.DrawQuad({abs.x + m_padding, abs.y + titleH},
                           {m_size.x - m_padding * 2, 1.0f}, sepColor);
 
@@ -94,16 +89,18 @@ private:
         m_padding = theme.widget.padding;
         m_spacing = theme.widget.spacing;
 
-        m_titleLabel = new Label(m_id * 100 + 1, {m_padding, (40.0f - 18.0f) * 0.5f},
+        m_titleLabel = new Label(m_id * 100 + 1, {m_padding, 10.0f},
                                  title, Label::Role::Title);
+        m_titleLabel->SetSize({m_size.x - m_padding * 2, 25.0f});
 
-        float msgY = 50.0f;
+        float msgY = 45.0f;
         m_messageLabel = new Label(m_id * 100 + 2, {m_padding, msgY},
                                    message, Label::Role::Text);
-        m_messageLabel->SetSize({m_size.x - m_padding * 2, m_size.y - msgY - 60.0f});
+        m_messageLabel->SetSize({m_size.x - m_padding * 2, m_size.y - msgY - 55.0f});
 
+        float btnRowY = m_size.y - 46.0f;
         m_buttonRow = new HBoxLayout(m_id * 100 + 3,
-                                     {m_padding, m_size.y - 50.0f},
+                                     {m_padding, btnRowY},
                                      {m_size.x - m_padding * 2, 36.0f}, 0, m_spacing);
 
         AddChild(m_titleLabel);
@@ -133,6 +130,7 @@ public:
     Toast(int id, glm::vec2 pos, glm::vec2 size, const std::string& message = "")
         : Widget(id, pos, size) {
         m_message = message;
+        m_visible = false;  // hidden until Show() is called
     }
 
     void SetMessage(const std::string& msg) { m_message = msg; }
