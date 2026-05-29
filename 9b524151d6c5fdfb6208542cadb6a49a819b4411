@@ -1,0 +1,73 @@
+modules/runtime/src/scene_loader.cpp
+  5e4d3ae76e8dff55 1-69
+modules/runtime/include/runtime/widget_factory.h
+  5e4d3ae76e8dff55 1-33
+modules/runtime/include/runtime/json_scene.h
+  5e4d3ae76e8dff55 1-57
+modules/runtime/CMakeLists.txt
+  5e4d3ae76e8dff55 1-14
+resources/scenes/demo.json
+  5e4d3ae76e8dff55 1-114
+tests/runtime/test_scene_loader.cpp
+  5e4d3ae76e8dff55 1-180
+modules/gui/include/gui/widgets/scroll_view.h
+  5e4d3ae76e8dff55 29
+tests/CMakeLists.txt
+  5e4d3ae76e8dff55 15
+modules/rhi/include/rhi/batch_renderer2d.h
+  5e4d3ae76e8dff55 52
+modules/runtime/include/runtime/scene_loader.h
+  5e4d3ae76e8dff55 1-30
+apps/gallery/CMakeLists.txt
+  5e4d3ae76e8dff55 25
+modules/gui/include/gui/widget.h
+  5e4d3ae76e8dff55 40-41
+modules/runtime/include/runtime/data_model.h
+  5e4d3ae76e8dff55 1-109
+tests/runtime/test_data_model.cpp
+  5e4d3ae76e8dff55 1-179
+apps/gallery/dashboard_scene.cpp
+  5e4d3ae76e8dff55 14,139-149,161,167-170
+docs/ROADMAP.md
+  5e4d3ae76e8dff55 7,11,38-43
+CHANGELOG.md
+  5e4d3ae76e8dff55 10-44
+modules/runtime/include/runtime/state_machine.h
+  5e4d3ae76e8dff55 1-150
+modules/runtime/src/widget_factory.cpp
+  5e4d3ae76e8dff55 1-225
+tests/runtime/test_widget_factory.cpp
+  5e4d3ae76e8dff55 1-120
+CLAUDE.md
+  5e4d3ae76e8dff55 27,95-111
+tests/runtime/CMakeLists.txt
+  5e4d3ae76e8dff55 1-21
+modules/runtime/include/runtime/scene_bindings.h
+  5e4d3ae76e8dff55 1-118
+modules/gui/include/gui/layout/box_layout.h
+  5e4d3ae76e8dff55 19
+modules/runtime/include/runtime/sim_data_source.h
+  5e4d3ae76e8dff55 1-167
+modules/runtime/src/json_scene.cpp
+  5e4d3ae76e8dff55 1-169
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.1.8",
+  "base_commit_sha": "9b524151d6c5fdfb6208542cadb6a49a819b4411",
+  "prompts": {
+    "5e4d3ae76e8dff55": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "a50b23d1-35e7-4b0b-b04d-d980dc8ead3c",
+        "model": "deepseek-v4-flash"
+      },
+      "human_author": "hyp_cvte <hyp@cviauto.com>",
+      "messages": [],
+      "total_additions": 2834,
+      "total_deletions": 1008,
+      "accepted_lines": 2046,
+      "overriden_lines": 0
+    }
+  }
+}
