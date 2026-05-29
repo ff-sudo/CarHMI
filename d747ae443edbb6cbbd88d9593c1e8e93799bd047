@@ -1,0 +1,45 @@
+modules/core/include/core/resource_manager.h
+  5e4d3ae76e8dff55 15-17
+modules/gui/include/gui/ui_context.h
+  5e4d3ae76e8dff55 8-12,40-48,52-53
+apps/gallery/application.h
+  5e4d3ae76e8dff55 14-15,34-35,51-52
+apps/gallery/dashboard_scene.cpp
+  5e4d3ae76e8dff55 160,162-163,165-166,238
+modules/core/include/core/animation/animation_manager.h
+  5e4d3ae76e8dff55 14-16
+modules/gui/include/gui/widgets/button.h
+  5e4d3ae76e8dff55 79
+modules/core/include/core/scene/scene_manager.h
+  5e4d3ae76e8dff55 10-11,16-18,34-35,39
+apps/gallery/application.cpp
+  5e4d3ae76e8dff55 55-57,59-60,64,101-102
+modules/core/src/scene/scene_manager.cpp
+  5e4d3ae76e8dff55 9-12,84,89,94,99
+modules/core/include/core/timer/timer_manager.h
+  5e4d3ae76e8dff55 12-17
+apps/gallery/dashboard_scene.h
+  5e4d3ae76e8dff55 4,33
+apps/gallery/timer_demo_scene.cpp
+  5e4d3ae76e8dff55 67,89,106
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.1.8",
+  "base_commit_sha": "d747ae443edbb6cbbd88d9593c1e8e93799bd047",
+  "prompts": {
+    "5e4d3ae76e8dff55": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "a50b23d1-35e7-4b0b-b04d-d980dc8ead3c",
+        "model": "deepseek-v4-flash"
+      },
+      "human_author": "hyp_cvte <hyp@cviauto.com>",
+      "messages": [],
+      "total_additions": 1218,
+      "total_deletions": 1203,
+      "accepted_lines": 301,
+      "overriden_lines": 0
+    }
+  }
+}
