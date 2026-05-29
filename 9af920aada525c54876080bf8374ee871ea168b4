@@ -1,0 +1,29 @@
+modules/gui/include/gui/layout/layout_data.h
+  5e4d3ae76e8dff55 1-15
+modules/gui/include/gui/widgets/scroll_view.h
+  5e4d3ae76e8dff55 62
+modules/gui/src/widget.cpp
+  5e4d3ae76e8dff55 97
+modules/gui/include/gui/widget.h
+  5e4d3ae76e8dff55 4,56-58,60-61,64-66,69-71,73-74,92,104-111
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.1.8",
+  "base_commit_sha": "9af920aada525c54876080bf8374ee871ea168b4",
+  "prompts": {
+    "5e4d3ae76e8dff55": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "a50b23d1-35e7-4b0b-b04d-d980dc8ead3c",
+        "model": "deepseek-v4-flash"
+      },
+      "human_author": "hyp_cvte <hyp@cviauto.com>",
+      "messages": [],
+      "total_additions": 145,
+      "total_deletions": 123,
+      "accepted_lines": 69,
+      "overriden_lines": 0
+    }
+  }
+}
