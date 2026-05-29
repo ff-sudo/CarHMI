@@ -6,7 +6,9 @@ using namespace CarHMI::GUI;
 TEST(ToastTest, Construction) {
     Toast t(1, {100, 20}, {200, 40}, "Operation completed");
     EXPECT_EQ(t.GetID(), 1);
-    EXPECT_TRUE(t.IsVisible()); // starts visible
+    EXPECT_FALSE(t.IsVisible()); // hidden until Show()
+    t.Show();
+    EXPECT_TRUE(t.IsVisible());  // visible after Show()
 }
 
 TEST(ToastTest, SetMessage) {

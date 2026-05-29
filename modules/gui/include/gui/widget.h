@@ -94,6 +94,14 @@ protected:
     std::vector<Widget*> m_children;
     Core::Connection m_themeSubscription;
     Core::PropertyMap m_props;
+
+    // Tree mutation safety: mutations during Update/Draw are deferred
+    int m_updateDepth = 0;
+    std::vector<Widget*> m_pendingAdditions;
+    std::vector<Widget*> m_pendingRemovals;
+
+    void DoRemoveChild(Widget* child);
+    void FlushPendingMutations();
 };
 
 } // namespace CarHMI::GUI

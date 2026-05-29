@@ -1,5 +1,6 @@
 #include <gtest/gtest.h>
 #include <gui/widget.h>
+#include <gui/focus_manager.h>
 
 using namespace CarHMI::GUI;
 
@@ -140,4 +141,139 @@ TEST(WidgetTest, SetMargin) {
     EXPECT_FLOAT_EQ(m.right, 10.0f);
     EXPECT_FLOAT_EQ(m.bottom, 15.0f);
     EXPECT_FLOAT_EQ(m.left, 20.0f);
+}
+
+// --- Tree Mutation Safety (deferred AddChild / RemoveChild during Update) ---
+
+TEST(WidgetTest, DeferredAddDuringUpdate) {
+    auto* parent = new Widget(1, {0, 0}, {400, 400});
+    bool callbackFired = false;
+
+    struct CallbackWidget : Widget {
+        std::function<void()> onUpdate;
+        using Widget::Widget;
+        void Update(UIContext& ctx) override {
+            Widget::Update(ctx);
+            if (onUpdate) onUpdate();
+        }
+    };
+
+    auto* child = new CallbackWidget(2, {0, 0}, {100, 50});
+    child->onUpdate = [&]() {
+        // This callback fires DURING parent->Update() iteration.
+        // AddChild would normally invalidate the iterator; deferred mechanism prevents crash.
+        auto* newChild = new Widget(3, {0, 0}, {50, 50});
+        parent->AddChild(newChild);
+        callbackFired = true;
+    };
+
+    parent->AddChild(child);
+    EXPECT_EQ(parent->GetChildren().size(), 1u);
+
+    // Simulate a frame Update (ctx not used by these widgets)
+    UIContext dummyCtx;
+    parent->Update(dummyCtx);
+
+    EXPECT_TRUE(callbackFired);
+    // The new child was deferred and should be in the tree after Update completes
+    EXPECT_EQ(parent->GetChildren().size(), 2u);
+    EXPECT_EQ(parent->GetChildren()[1]->GetID(), 3);
+
+    delete parent;
+}
+
+TEST(WidgetTest, DeferredRemoveDuringUpdate) {
+    auto* parent = new Widget(1, {0, 0}, {400, 400});
+
+    struct CallbackWidget : Widget {
+        std::function<void()> onUpdate;
+        using Widget::Widget;
+        void Update(UIContext& ctx) override {
+            Widget::Update(ctx);
+            if (onUpdate) onUpdate();
+        }
+    };
+
+    auto* keeper = new Widget(2, {0, 0}, {50, 50});
+    auto* remover = new CallbackWidget(3, {0, 0}, {50, 50});
+
+    Widget* toRemove = new Widget(4, {0, 0}, {50, 50});
+    remover->onUpdate = [&]() {
+        parent->RemoveChild(toRemove);
+    };
+
+    parent->AddChild(keeper);
+    parent->AddChild(remover);
+    parent->AddChild(toRemove);
+    EXPECT_EQ(parent->GetChildren().size(), 3u);
+
+    UIContext dummyCtx;
+    parent->Update(dummyCtx);
+
+    EXPECT_EQ(parent->GetChildren().size(), 2u);
+    // toRemove should be gone, keeper and remover remain
+    EXPECT_EQ(parent->GetChildren()[0]->GetID(), 2);
+    EXPECT_EQ(parent->GetChildren()[1]->GetID(), 3);
+    // toRemove is NOT deleted by RemoveChild — caller owns the pointer
+    EXPECT_EQ(toRemove->GetID(), 4);
+    delete toRemove;
+    delete parent;
+}
+
+TEST(WidgetTest, RemoveChildUnregistersFocus) {
+    // FocusManager must be inited before use
+    FocusManager::Get().Init();
+
+    auto* parent = new Widget(1, {0, 0}, {400, 400});
+    auto* child = new Widget(2, {0, 0}, {50, 50});
+    child->SetFocusable(true);
+
+    parent->AddChild(child);
+    FocusManager::Get().RegisterWidget(child);
+    EXPECT_EQ(FocusManager::Get().GetFocusChain().size(), 1u);
+
+    parent->RemoveChild(child);
+    // After RemoveChild, child should no longer be in the focus chain
+    EXPECT_EQ(FocusManager::Get().GetFocusChain().size(), 0u);
+
+    delete child;
+    delete parent;
+    FocusManager::Get().Shutdown();
+}
+
+TEST(WidgetTest, NestedDeferredMutations) {
+    // Grandparent → parent → child: leaf callback modifies grandparent's children
+    auto* grandparent = new Widget(10, {0, 0}, {800, 800});
+
+    auto* middle = new Widget(20, {0, 0}, {400, 400});
+
+    struct CallbackWidget : Widget {
+        std::function<void()> onUpdate;
+        using Widget::Widget;
+        void Update(UIContext& ctx) override {
+            Widget::Update(ctx);
+            if (onUpdate) onUpdate();
+        }
+    };
+    auto* leaf = new CallbackWidget(30, {0, 0}, {100, 50});
+
+    Widget* newSibling = new Widget(40, {0, 0}, {50, 50});
+
+    leaf->onUpdate = [&]() {
+        // Cross-level modification: leaf adds to grandparent during traversal
+        grandparent->AddChild(newSibling);
+    };
+
+    grandparent->AddChild(middle);
+    middle->AddChild(leaf);
+    EXPECT_EQ(grandparent->GetChildren().size(), 1u); // just middle
+
+    UIContext dummyCtx;
+    grandparent->Update(dummyCtx);
+
+    // After Update completes, grandparent should have middle + newSibling
+    EXPECT_EQ(grandparent->GetChildren().size(), 2u);
+    EXPECT_EQ(grandparent->GetChildren()[1]->GetID(), 40);
+
+    delete grandparent;
 }
