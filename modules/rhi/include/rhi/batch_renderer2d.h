@@ -49,6 +49,7 @@ public:
 
     // Scissor clipping stack
     void SetViewportSize(int width, int height);
+    glm::ivec2 GetViewportSize() const { return {m_viewportWidth, m_viewportHeight}; }
     void PushScissor(glm::vec2 pos, glm::vec2 size);
     void PopScissor();
 

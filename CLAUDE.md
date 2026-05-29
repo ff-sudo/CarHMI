@@ -24,7 +24,7 @@ modules/rhi/         # L2 渲染抽象 (CarHMI::RHI) — OpenGL 3.3, BatchRender
 modules/core/        # L3 核心运行时 (CarHMI::Core) — EventBus/Property/Animation/Scene/ResourceManager/TimerManager
 modules/gui/         # L4 GUI 框架 (CarHMI::GUI) — Widget/控件/布局/样式/i18n/Canvas/DebugPanel
 modules/renderer3d/  # L2+ 3D 渲染 (CarHMI::Render3D)
-modules/runtime/     # L5 预留
+modules/runtime/     # L5 运行时引擎 (CarHMI::Runtime) — WidgetFactory/SceneLoader/JsonScene
 modules/script/      # L6 预留
 modules/pipeline/    # L7 预留
 apps/gallery/        # 演示程序 (CarHMI::Gallery)
@@ -90,6 +90,23 @@ Canvas cv(ctx.GetRenderer(), ctx.GetFont(), GetAbsolutePos());
 cv.SetFillColor({1, 0, 0, 1});
 cv.FillRoundRect(0, 0, 100, 50, 10);
 cv.BeginPath(); cv.MoveTo(0, 0); cv.LineTo(50, 50); cv.StrokePath();
+```
+
+## Runtime / JSON 场景加载
+
+```cpp
+// 从 JSON 加载场景
+auto scene = std::make_unique<Runtime::JsonScene>("resources/scenes/demo.json", &uiCtx, &renderer);
+sceneManager.Push(std::move(scene));
+
+// scene.json 格式
+// { "name": "Demo", "root": { "type": "BoxLayout", "children": [...] } }
+// 支持 18 种内置 Widget 类型，自动热重载（~2秒检测）
+
+// 自定义 Widget 注册
+Runtime::WidgetFactory::Get().Register("MyWidget", [](const json& j, int id) -> Widget* {
+    return new MyWidget(id, ...);
+});
 ```
 
 ## 开发约定

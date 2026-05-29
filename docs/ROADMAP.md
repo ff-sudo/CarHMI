@@ -4,11 +4,11 @@
 
 ---
 
-## 当前版本：v0.2.9（M1 全部完成）✅
+## 当前版本：v0.3.0（M2 全部完成）
 
 ---
 
-## Milestone 1：基础加固
+## Milestone 1：基础加固 ✅
 
 **目标**：修复已知问题，补齐基础能力，让框架达到"可用于构建真实 Demo"的状态。
 
@@ -35,12 +35,12 @@
 
 | # | 任务 | 模块 | 优先级 |
 |---|------|------|--------|
-| 2.1 | 场景描述格式定义（scene.json → Widget 树） | Runtime | P0 |
-| 2.2 | Widget 序列化/反序列化 | Runtime | P0 |
-| 2.3 | DataModel 抽象（key-value 数据源） | Runtime | P1 |
-| 2.4 | 模拟数据源（用于开发测试） | Runtime | P1 |
-| 2.5 | DataModel → Widget 属性自动绑定 | Runtime | P1 |
-| 2.6 | 状态机（页面导航 + 条件跳转） | Runtime | P1 |
+| 2.1 | ~~场景描述格式定义（scene.json → Widget 树）~~ | Runtime | ✅ |
+| 2.2 | ~~Widget 序列化/反序列化~~ | Runtime | ✅ |
+| 2.3 | ~~DataModel 抽象（key-value 数据源）~~ | Runtime | ✅ |
+| 2.4 | ~~模拟数据源（用于开发测试）~~ | Runtime | ✅ |
+| 2.5 | ~~DataModel → Widget 属性自动绑定~~ | Runtime | ✅ |
+| 2.6 | ~~状态机（页面导航 + 条件跳转）~~ | Runtime | ✅ |
 
 ### 完成标准 (SMARTER)
 

@@ -1,0 +1,114 @@
+{
+  "name": "JSON Demo",
+  "dataModel": {
+    "name": "demo",
+    "properties": {
+      "speed": 0,
+      "fuel": 75
+    }
+  },
+  "dataSource": {
+    "model": "demo",
+    "interval": 200,
+    "properties": [
+      { "name": "speed", "mode": "sine", "min": 0, "max": 120, "period": 6.0 },
+      { "name": "fuel", "mode": "linear", "start": 1.0, "end": 0, "duration": 120 }
+    ]
+  },
+  "bindings": [
+    { "source": "demo.speed", "target": 20, "property": "value" },
+    { "source": "demo.speed", "target": 3, "property": "text", "format": "Speed: %.0f km/h" },
+    { "source": "demo.fuel", "target": 21, "property": "value" }
+  ],
+  "root": {
+    "type": "BoxLayout",
+    "id": 1,
+    "pos": [50, 50],
+    "size": [400, 500],
+    "direction": "vertical",
+    "padding": 20,
+    "spacing": 12,
+    "children": [
+      {
+        "type": "Label",
+        "id": 2,
+        "text": "JSON Scene + Data Binding",
+        "role": "title",
+        "size": [360, 30],
+        "fillWidth": true
+      },
+      {
+        "type": "Label",
+        "id": 3,
+        "text": "Speed: 0 km/h",
+        "size": [360, 25]
+      },
+      {
+        "type": "Panel",
+        "id": 4,
+        "size": [360, 2],
+        "bgColor": [0.4, 0.4, 0.5, 1.0],
+        "fillWidth": true
+      },
+      {
+        "type": "HBoxLayout",
+        "id": 10,
+        "size": [360, 40],
+        "padding": 0,
+        "spacing": 8,
+        "fillWidth": true,
+        "children": [
+          {
+            "type": "Button",
+            "id": 11,
+            "size": [100, 40],
+            "text": "Button A",
+            "fillWidth": true
+          },
+          {
+            "type": "Button",
+            "id": 12,
+            "size": [100, 40],
+            "text": "Button B",
+            "fillWidth": true
+          },
+          {
+            "type": "Button",
+            "id": 13,
+            "size": [100, 40],
+            "text": "Button C",
+            "fillWidth": true
+          }
+        ]
+      },
+      {
+        "type": "Slider",
+        "id": 20,
+        "size": [360, 30],
+        "min": 0,
+        "max": 120,
+        "value": 0,
+        "fillWidth": true
+      },
+      {
+        "type": "ProgressBar",
+        "id": 21,
+        "size": [360, 25],
+        "value": 0.75,
+        "fillWidth": true
+      },
+      {
+        "type": "Toggle",
+        "id": 22,
+        "size": [60, 30]
+      },
+      {
+        "type": "Label",
+        "id": 30,
+        "text": "Data auto-updates via SimDataSource!",
+        "size": [360, 25],
+        "margin": [20, 0, 0, 0]
+      }
+    ]
+  }
+}

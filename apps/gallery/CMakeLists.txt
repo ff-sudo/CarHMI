@@ -22,6 +22,7 @@ target_link_libraries(Gallery PRIVATE
     CarHMI::RHI
     CarHMI::PAL
     CarHMI::Renderer3D
+    CarHMI::Runtime
     imgui
     glad
     spdlog::spdlog

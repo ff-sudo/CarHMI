@@ -26,7 +26,7 @@ public:
             }));
     }
 
-    void AddChild(Widget* child) {
+    void AddChild(Widget* child) override {
         Widget::AddChild(child);
         RecalcContentSize();
     }

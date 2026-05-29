@@ -7,6 +7,41 @@
 
 ---
 
+## [0.3.0] - 2026-05-29
+
+### Added
+- **Runtime 模块**（`modules/runtime/`）：数据驱动 UI 引擎
+  - **WidgetFactory**：类型注册表，内置 18 种 Widget 创建器，支持自定义扩展
+  - **SceneLoader**：JSON → Widget 树递归构建，自动/手动 id，容错（未知类型跳过不崩溃）
+  - **JsonScene**：通用数据驱动 Scene 子类，加载 JSON 文件管理 Widget 树生命周期
+  - **热重载**：每 120 帧检测 JSON 文件修改时间，自动重建 Widget 树
+- **scene.json 场景描述格式**：声明式 Widget 树（type/id/pos/size/children + 类型特有属性）
+- **Gallery "JSON" 按钮**：Dashboard 新增入口，加载 `resources/scenes/demo.json`
+- **BatchRenderer2D.GetViewportSize()**：获取当前视口尺寸
+- **DataModel**（`runtime/data_model.h`）：key-value 可观察数据模型
+  - 基于 PropertyMap，支持 float/string/bool 类型
+  - JSON 初始化，全局 DataModelRegistry 按名称共享
+- **SimDataSource**（`runtime/sim_data_source.h`）：模拟数据源
+  - 支持 sine/random/linear/sequence/fixed 五种模式
+  - 定时器驱动自动更新 DataModel 属性
+- **SceneBindings**（`runtime/scene_bindings.h`）：声明式数据绑定
+  - JSON 中配置 "source" → "target.property"，支持 format 格式化
+  - 自动连接 DataModel 属性到 Widget 属性
+- **StateMachine**（`runtime/state_machine.h`）：条件状态机
+  - JSON 配置状态/转换/条件（eq/gt/lt/gte/lte/neq）
+  - 基于 DataModel 属性值自动求值转换
+- 27 个新测试用例（WidgetFactory 10 + SceneLoader 8 + DataModel/Sim/SM 9），总计 173 个
+
+### Changed
+- **Widget::AddChild/RemoveChild 改为 virtual**：支持子类（BoxLayout/ScrollView）正确 override
+- **架构重构 v0.3.0**（从前一轮迭代延续）：
+  - 控件树增删安全化：depth guard + 延迟队列（FlushPendingMutations）
+  - 核心管理器去单例化：AnimationManager/TimerManager 支持 SetGlobalInstance 注入
+  - Widget LayoutData 提取：懒分配 unique_ptr\<LayoutData\>
+- 崩溃处理器：Windows minidump + backward-cpp 栈回溯 + crash.log
+
+---
+
 ## [0.2.9] - 2026-05-28
 
 ### Added

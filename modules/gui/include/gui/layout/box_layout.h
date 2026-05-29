@@ -16,7 +16,7 @@ public:
               float padding = 10.0f, float spacing = 8.0f)
         : Widget(id, pos, size), m_direction(dir), m_padding(padding), m_spacing(spacing) {}
 
-    void AddChild(Widget* child) {
+    void AddChild(Widget* child) override {
         Widget::AddChild(child);
         Recalculate();
     }

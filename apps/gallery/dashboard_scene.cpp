@@ -11,6 +11,7 @@
 #include "image_view_demo_scene.h"
 #include "dialog_demo_scene.h"
 #include "application.h"
+#include <runtime/json_scene.h>
 #include <core/property/binding.h>
 #include <core/scene/scene_manager.h>
 #include <gui/focus_manager.h>
@@ -135,6 +136,17 @@ void DashboardScene::OnEnter() {
         Application::Get().GetSceneManager().Push(std::make_unique<DialogDemoScene>());
     });
 
+    auto* jsonBtn = new Button(27, {0, 0}, {50, 40}, "JSON");
+    jsonBtn->SetFillWidth();
+    jsonBtn->SetOnClick([]() {
+        auto& app = Application::Get();
+        Application::Get().GetSceneManager().Push(
+            std::make_unique<Runtime::JsonScene>(
+                "resources/scenes/demo.json",
+                &app.GetUIContext(),
+                &app.GetRenderer()));
+    });
+
     btnRow1->AddChild(settingsBtn);
     btnRow1->AddChild(widgetsBtn);
     btnRow1->AddChild(btn3D);
@@ -146,11 +158,15 @@ void DashboardScene::OnEnter() {
     btnRow3->AddChild(inputBtn);
     btnRow4->AddChild(imageBtn);
     btnRow4->AddChild(dialogBtn);
-    btnRow4->AddChild(resetBtn);
+    btnRow4->AddChild(jsonBtn);
     btnGrid->AddChild(btnRow1);
     btnGrid->AddChild(btnRow2);
     btnGrid->AddChild(btnRow3);
     btnGrid->AddChild(btnRow4);
+
+    auto* btnRow5 = new HBoxLayout(28, {0, 0}, {360, 40}, 0, 4);
+    btnRow5->AddChild(resetBtn);
+    btnGrid->AddChild(btnRow5);
 
     m_statusLabel = new Label(10, {0, 0}, i.T("status.ready"), Label::Role::Subtitle);
     m_statusLabel->SetSize({360, 25});
