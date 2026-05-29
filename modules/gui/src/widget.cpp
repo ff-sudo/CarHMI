@@ -94,7 +94,7 @@ bool Widget::Contains(glm::vec2 point) const {
 
 glm::vec2 Widget::GetAbsolutePos() const {
     if (m_parent)
-        return m_parent->GetAbsolutePos() + m_pos + m_parent->m_scrollOffset;
+        return m_parent->GetAbsolutePos() + m_pos + m_parent->GetLayoutData().scrollOffset;
     return m_pos;
 }
 

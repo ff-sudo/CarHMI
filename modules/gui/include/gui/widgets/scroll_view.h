@@ -59,7 +59,7 @@ public:
     void Update(UIContext& ctx) override {
         if (!m_visible) return;
         m_lastMousePos = ctx.GetMousePos();
-        m_scrollOffset = {-m_scrollX, -m_scrollY};
+        GetLayoutData().scrollOffset = {-m_scrollX, -m_scrollY};
 
         for (auto* child : m_children)
             child->Update(ctx);

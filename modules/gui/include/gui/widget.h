@@ -1,8 +1,7 @@
 #pragma once
 
 #include "ui_context.h"
-#include <gui/layout/insets.h>
-#include <gui/layout/size_policy.h>
+#include <gui/layout/layout_data.h>
 #include <core/event_bus.h>
 #include <core/event.h>
 #include <core/property/property.h>
@@ -54,23 +53,25 @@ public:
     void SetSize(glm::vec2 size) { m_size = size; }
     void SetVisible(bool v) { m_visible = v; }
 
-    void SetMargin(Insets m) { m_margin = m; }
-    void SetMargin(float all) { m_margin = Insets(all); }
-    Insets GetMargin() const { return m_margin; }
+    void SetMargin(Insets m) { GetLayoutData().margin = m; }
+    void SetMargin(float all) { GetLayoutData().margin = Insets(all); }
+    Insets GetMargin() const { return GetLayoutData().margin; }
 
-    void SetSizePolicy(SizePolicy sp) { m_sizePolicy = sp; }
-    SizePolicy GetSizePolicy() const { return m_sizePolicy; }
+    void SetSizePolicy(SizePolicy sp) { GetLayoutData().sizePolicy = sp; }
+    SizePolicy GetSizePolicy() const { return GetLayoutData().sizePolicy; }
 
     void SetWidthPercent(float pct) {
-        m_sizePolicy.widthMode = SizeMode::Percent;
-        m_sizePolicy.widthValue = pct;
+        auto& ld = GetLayoutData();
+        ld.sizePolicy.widthMode = SizeMode::Percent;
+        ld.sizePolicy.widthValue = pct;
     }
     void SetHeightPercent(float pct) {
-        m_sizePolicy.heightMode = SizeMode::Percent;
-        m_sizePolicy.heightValue = pct;
+        auto& ld = GetLayoutData();
+        ld.sizePolicy.heightMode = SizeMode::Percent;
+        ld.sizePolicy.heightValue = pct;
     }
-    void SetFillWidth() { m_sizePolicy.widthMode = SizeMode::Fill; }
-    void SetFillHeight() { m_sizePolicy.heightMode = SizeMode::Fill; }
+    void SetFillWidth() { GetLayoutData().sizePolicy.widthMode = SizeMode::Fill; }
+    void SetFillHeight() { GetLayoutData().sizePolicy.heightMode = SizeMode::Fill; }
 
     glm::vec2 GetPos() const { return m_pos; }
     glm::vec2 GetSize() const { return m_size; }
@@ -87,10 +88,8 @@ protected:
     glm::vec2 m_size;
     bool m_visible = true;
     bool m_focusable = false;
-    Insets m_margin;
-    SizePolicy m_sizePolicy;
-    glm::vec2 m_scrollOffset = {0, 0};
     Widget* m_parent = nullptr;
+    std::unique_ptr<LayoutData> m_layoutData;  // lazy-allocated
     std::vector<Widget*> m_children;
     Core::Connection m_themeSubscription;
     Core::PropertyMap m_props;
@@ -102,6 +101,14 @@ protected:
 
     void DoRemoveChild(Widget* child);
     void FlushPendingMutations();
+
+    LayoutData& GetLayoutData() {
+        if (!m_layoutData) m_layoutData = std::make_unique<LayoutData>();
+        return *m_layoutData;
+    }
+    const LayoutData& GetLayoutData() const {
+        return const_cast<Widget*>(this)->GetLayoutData();
+    }
 };
 
 } // namespace CarHMI::GUI
