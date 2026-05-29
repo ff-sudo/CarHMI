@@ -157,14 +157,13 @@ void DashboardScene::OnEnter() {
     m_statusLabel->SetI18nKey("status.ready");
 
     // Data bindings: slider value -> label text + progress bar
-    auto& bm = BindingManager::Get();
-    bm.ClearAll();
+    m_bindingScope.UnbindAll();
 
-    bm.BindFormat(m_speedSlider->ValueProperty(), m_speedLabel->TextProperty(), "Speed: %.0f km/h");
-    bm.Bind<float, float>(m_speedSlider->ValueProperty(), m_speedBar->ValueProperty(),
+    m_bindingScope.BindFormat(m_speedSlider->ValueProperty(), m_speedLabel->TextProperty(), "Speed: %.0f km/h");
+    m_bindingScope.Bind<float, float>(m_speedSlider->ValueProperty(), m_speedBar->ValueProperty(),
         [](const float& val) { return val / 240.0f; });
-    bm.BindFormat(fuelSlider->ValueProperty(), fuelLabel->TextProperty(), "Fuel: %.0f%%");
-    bm.Bind<float, float>(fuelSlider->ValueProperty(), m_fuelBar->ValueProperty(),
+    m_bindingScope.BindFormat(fuelSlider->ValueProperty(), fuelLabel->TextProperty(), "Fuel: %.0f%%");
+    m_bindingScope.Bind<float, float>(fuelSlider->ValueProperty(), m_fuelBar->ValueProperty(),
         [](const float& val) { return val / 100.0f; });
 
     // Color thresholds still use callbacks
@@ -236,7 +235,7 @@ void DashboardScene::OnImGui() {
     ImGui::Separator();
     ImGui::Text("Speed: %.1f", m_speedSlider ? m_speedSlider->GetValue() : 0);
     ImGui::Text("Scene Stack: %d", Application::Get().GetSceneManager().StackSize());
-    ImGui::Text("Active Animations: %d", AnimationManager::Get().ActiveCount());
+    ImGui::Text("Active Animations: %d", Application::Get().GetAnimationManager().ActiveCount());
     if (Application::Get().GetSceneManager().IsTransitioning())
         ImGui::Text("Transitioning: offset=%.1f", Application::Get().GetSceneManager().GetTransitionOffset());
     ImGui::Separator();

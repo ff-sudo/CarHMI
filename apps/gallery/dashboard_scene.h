@@ -1,6 +1,7 @@
 #pragma once
 
 #include <core/scene/scene.h>
+#include <core/property/binding.h>
 #include <gui/layout/box_layout.h>
 #include <gui/widgets/label.h>
 #include <gui/widgets/slider.h>
@@ -29,6 +30,7 @@ private:
     ProgressBar* m_speedBar = nullptr;
     ProgressBar* m_fuelBar = nullptr;
     Label* m_statusLabel = nullptr;
+    Core::BindingScope m_bindingScope;
 };
 
 } // namespace CarHMI::Gallery

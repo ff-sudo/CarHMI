@@ -11,6 +11,9 @@ namespace CarHMI::Core {
 
 class AnimationManager {
 public:
+    AnimationManager() = default;
+
+    [[deprecated("Pass AnimationManager via UIContext instead")]]
     static AnimationManager& Get() {
         static AnimationManager instance;
         return instance;
@@ -60,8 +63,6 @@ public:
     void Clear() { m_animations.clear(); }
     int ActiveCount() const { return (int)m_animations.size(); }
 
-private:
-    AnimationManager() = default;
     std::vector<std::unique_ptr<Animation>> m_animations;
 };
 

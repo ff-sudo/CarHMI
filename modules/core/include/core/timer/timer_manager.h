@@ -9,13 +9,16 @@ namespace CarHMI::Core {
 
 class TimerManager {
 public:
+    TimerManager() = default;
+
+    TimerManager(const TimerManager&) = delete;
+    TimerManager& operator=(const TimerManager&) = delete;
+
+    [[deprecated("Pass TimerManager via UIContext instead")]]
     static TimerManager& Get() {
         static TimerManager instance;
         return instance;
     }
-
-    TimerManager(const TimerManager&) = delete;
-    TimerManager& operator=(const TimerManager&) = delete;
 
     // setTimeout: 延迟 delayMs 毫秒后执行一次
     Connection SetTimeout(std::function<void()> callback, int delayMs) {
@@ -65,8 +68,6 @@ public:
     }
 
 private:
-    TimerManager() = default;
-
     void Cancel(int id) {
         for (auto& t : m_timers) {
             if (t.id == id) {

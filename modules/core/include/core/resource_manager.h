@@ -12,6 +12,9 @@ namespace CarHMI::Core {
 
 class ResourceManager {
 public:
+    ResourceManager() = default;
+
+    [[deprecated("Create ResourceManager instance directly instead")]]
     static ResourceManager& Get() {
         static ResourceManager instance;
         return instance;
@@ -89,8 +92,6 @@ public:
     }
 
 private:
-    ResourceManager() = default;
-
     template<typename T>
     static std::string MakeKey(const std::string& path) {
         return std::string(typeid(T).name()) + "::" + path;

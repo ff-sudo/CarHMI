@@ -52,11 +52,16 @@ void Application::Run() {
 
     InitImGui();
 
+    m_animationManager = std::make_unique<Core::AnimationManager>();
+    m_timerManager = std::make_unique<Core::TimerManager>();
+
     m_uiContext.Init(&m_renderer, &m_font);
+    m_uiContext.SetAnimationManager(m_animationManager.get());
+    m_uiContext.SetTimerManager(m_timerManager.get());
 
     GUI::FocusManager::Get().Init();
 
-    m_sceneManager = std::make_unique<Core::SceneManager>();
+    m_sceneManager = std::make_unique<Core::SceneManager>(m_animationManager.get());
 
     m_connections.Add(Core::EventBus::Get().Subscribe<Core::WindowCloseEvent>(
         [this](const Core::WindowCloseEvent&) {
@@ -93,8 +98,8 @@ void Application::Run() {
         ImGui::NewFrame();
 
         Core::EventBus::Get().Post(Core::AppTickEvent{dt});
-        Core::AnimationManager::Get().Update(dt);
-        Core::TimerManager::Get().Update(dt);
+        m_animationManager->Update(dt);
+        m_timerManager->Update(dt);
 
         m_frameCount++;
         if (m_frameCount % 60 == 0)

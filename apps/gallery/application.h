@@ -9,7 +9,11 @@
 #include <memory>
 #include <string>
 
-namespace CarHMI::Core { class SceneManager; }
+namespace CarHMI::Core {
+class SceneManager;
+class AnimationManager;
+class TimerManager;
+}
 
 namespace CarHMI::Gallery {
 
@@ -27,6 +31,8 @@ public:
     void ReloadFont(const std::string& path, float size);
     GUI::UIContext& GetUIContext() { return m_uiContext; }
     Core::SceneManager& GetSceneManager() { return *m_sceneManager; }
+    Core::AnimationManager& GetAnimationManager() { return *m_animationManager; }
+    Core::TimerManager& GetTimerManager() { return *m_timerManager; }
 
     static Application& Get() { return *s_instance; }
 
@@ -42,6 +48,8 @@ private:
 
     std::unique_ptr<PAL::Platform> m_platform;
     std::unique_ptr<Core::SceneManager> m_sceneManager;
+    std::unique_ptr<Core::AnimationManager> m_animationManager;
+    std::unique_ptr<Core::TimerManager> m_timerManager;
     RHI::BatchRenderer2D m_renderer;
     RHI::Font m_font;
     GUI::UIContext m_uiContext;

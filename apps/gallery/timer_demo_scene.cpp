@@ -64,7 +64,7 @@ void TimerDemoScene::OnImGui() {
         m_timeoutActive = true;
         snprintf(m_log, sizeof(m_log), "Timeout started: %d ms", m_timeoutDelayMs);
         m_timerConnections.Add(
-            Core::TimerManager::Get().SetTimeout([this]() {
+            Application::Get().GetTimerManager().SetTimeout([this]() {
                 m_timeoutCount++;
                 m_timeoutActive = false;
                 snprintf(m_log, sizeof(m_log), "Timeout fired! (total: %d)", m_timeoutCount);
@@ -86,7 +86,7 @@ void TimerDemoScene::OnImGui() {
             m_intervalCount = 0;
             snprintf(m_log, sizeof(m_log), "Interval started: %d ms", m_intervalMs);
             m_timerConnections.Add(
-                Core::TimerManager::Get().SetInterval([this]() {
+                Application::Get().GetTimerManager().SetInterval([this]() {
                     m_intervalCount++;
                     snprintf(m_log, sizeof(m_log), "Interval tick #%d", m_intervalCount);
                 }, m_intervalMs)
@@ -103,7 +103,7 @@ void TimerDemoScene::OnImGui() {
     ImGui::Separator();
 
     // --- Info ---
-    ImGui::Text("Active timers: %d", Core::TimerManager::Get().ActiveCount());
+    ImGui::Text("Active timers: %d", Application::Get().GetTimerManager().ActiveCount());
     ImGui::Text("Log: %s", m_log);
 
     if (ImGui::Button("Clear All Timers")) {

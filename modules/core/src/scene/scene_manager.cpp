@@ -6,6 +6,10 @@
 
 namespace CarHMI::Core {
 
+AnimationManager& SceneManager::GetAnimMgr() {
+    return m_animMgr ? *m_animMgr : AnimationManager::Get();
+}
+
 void SceneManager::Push(std::unique_ptr<Scene> scene, TransitionType transition) {
     if (!m_stack.empty())
         m_stack.back()->OnPause();
@@ -77,22 +81,22 @@ void SceneManager::StartTransition(TransitionType type, float duration) {
     switch (type) {
     case TransitionType::SlideLeft:
         m_transitionOffset = 400.0f;
-        AnimationManager::Get().TweenTo(&m_transitionOffset, 0.0f, duration, Easing::OutCubic)
+        GetAnimMgr().TweenTo(&m_transitionOffset, 0.0f, duration, Easing::OutCubic)
             ->SetOnComplete([this]() { m_transitioning = false; });
         break;
     case TransitionType::SlideRight:
         m_transitionOffset = -400.0f;
-        AnimationManager::Get().TweenTo(&m_transitionOffset, 0.0f, duration, Easing::OutCubic)
+        GetAnimMgr().TweenTo(&m_transitionOffset, 0.0f, duration, Easing::OutCubic)
             ->SetOnComplete([this]() { m_transitioning = false; });
         break;
     case TransitionType::FadeIn:
         m_transitionAlpha = 0.0f;
-        AnimationManager::Get().TweenTo(&m_transitionAlpha, 1.0f, duration, Easing::OutQuad)
+        GetAnimMgr().TweenTo(&m_transitionAlpha, 1.0f, duration, Easing::OutQuad)
             ->SetOnComplete([this]() { m_transitioning = false; });
         break;
     case TransitionType::FadeOut:
         m_transitionAlpha = 1.0f;
-        AnimationManager::Get().TweenTo(&m_transitionAlpha, 0.0f, duration, Easing::InQuad)
+        GetAnimMgr().TweenTo(&m_transitionAlpha, 0.0f, duration, Easing::InQuad)
             ->SetOnComplete([this]() { m_transitioning = false; });
         break;
     default:

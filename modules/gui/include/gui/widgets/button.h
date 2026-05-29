@@ -76,7 +76,7 @@ public:
                 case State::Pressed: targetColor = m_pressColor; break;
                 default:             targetColor = m_normalColor; break;
             }
-            AnimationManager::Get().TweenTo(&m_currentColor, targetColor, m_transitionTime, Easing::OutQuad);
+            ctx.GetAnimationManager().TweenTo(&m_currentColor, targetColor, m_transitionTime, Easing::OutQuad);
         }
     }
 

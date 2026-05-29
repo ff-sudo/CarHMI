@@ -5,6 +5,11 @@
 #include <rhi/batch_renderer2d.h>
 #include <rhi/font.h>
 
+namespace CarHMI::Core {
+class AnimationManager;
+class TimerManager;
+}
+
 namespace CarHMI::GUI {
 
 class UIContext {
@@ -32,9 +37,20 @@ public:
 
     void BeginFrame();
 
+    // Service locators (non-owning, wired by Application)
+    void SetAnimationManager(Core::AnimationManager* mgr) { m_animMgr = mgr; }
+    Core::AnimationManager& GetAnimationManager() { return *m_animMgr; }
+    bool HasAnimationManager() const { return m_animMgr != nullptr; }
+
+    void SetTimerManager(Core::TimerManager* mgr) { m_timerMgr = mgr; }
+    Core::TimerManager& GetTimerManager() { return *m_timerMgr; }
+    bool HasTimerManager() const { return m_timerMgr != nullptr; }
+
 private:
     RHI::BatchRenderer2D* m_renderer = nullptr;
     RHI::Font* m_font = nullptr;
+    Core::AnimationManager* m_animMgr = nullptr;
+    Core::TimerManager* m_timerMgr = nullptr;
 
     glm::vec2 m_mousePos = {0, 0};
     bool m_mouseDown = false;

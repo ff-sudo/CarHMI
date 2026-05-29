@@ -7,10 +7,15 @@
 
 namespace CarHMI::Core {
 
+class AnimationManager;
+
 enum class TransitionType { None, SlideLeft, SlideRight, FadeIn, FadeOut };
 
 class SceneManager {
 public:
+    explicit SceneManager(AnimationManager* animMgr = nullptr)
+        : m_animMgr(animMgr) {}
+
     void Push(std::unique_ptr<Scene> scene, TransitionType transition = TransitionType::SlideLeft);
     void Pop(TransitionType transition = TransitionType::SlideRight);
     void Replace(std::unique_ptr<Scene> scene, TransitionType transition = TransitionType::FadeIn);
@@ -26,9 +31,12 @@ public:
     float GetTransitionAlpha() const { return m_transitionAlpha; }
 
 private:
+    AnimationManager& GetAnimMgr();
+
     void StartTransition(TransitionType type, float duration = 0.3f);
     void ProcessPendingPop();
 
+    AnimationManager* m_animMgr = nullptr;
     std::vector<std::unique_ptr<Scene>> m_stack;
 
     bool m_transitioning = false;

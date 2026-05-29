@@ -129,34 +129,4 @@ private:
     std::vector<std::unique_ptr<BindingBase>> m_bindings;
 };
 
-class BindingManager {
-public:
-    static BindingManager& Get() {
-        static BindingManager instance;
-        return instance;
-    }
-
-    template<typename T>
-    void Bind(Property<T>& source, Property<T>& target) {
-        m_scope.Bind(source, target);
-    }
-
-    template<typename S, typename T>
-    void Bind(Property<S>& source, Property<T>& target,
-              std::function<T(const S&)> transform) {
-        m_scope.Bind(source, target, std::move(transform));
-    }
-
-    void BindFormat(Property<float>& source, Property<std::string>& target,
-                    const std::string& format) {
-        m_scope.BindFormat(source, target, format);
-    }
-
-    void ClearAll() { m_scope.UnbindAll(); }
-
-private:
-    BindingManager() = default;
-    BindingScope m_scope;
-};
-
 } // namespace CarHMI::Core
