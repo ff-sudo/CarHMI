@@ -13,8 +13,13 @@ class AnimationManager {
 public:
     AnimationManager() = default;
 
-    [[deprecated("Pass AnimationManager via UIContext instead")]]
+    /// Set the global instance. Application calls this so that Get() returns the same
+    /// instance that the main loop ticks. nullptr resets to default.
+    static void SetGlobalInstance(AnimationManager* inst) { s_globalInstance = inst; }
+
+    /// Returns the injected instance, or a default singleton if none was set.
     static AnimationManager& Get() {
+        if (s_globalInstance) return *s_globalInstance;
         static AnimationManager instance;
         return instance;
     }
@@ -63,7 +68,10 @@ public:
     void Clear() { m_animations.clear(); }
     int ActiveCount() const { return (int)m_animations.size(); }
 
+    static AnimationManager* s_globalInstance;
     std::vector<std::unique_ptr<Animation>> m_animations;
 };
+
+inline AnimationManager* AnimationManager::s_globalInstance = nullptr;
 
 } // namespace CarHMI::Core

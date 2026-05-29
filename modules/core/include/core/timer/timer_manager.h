@@ -14,8 +14,11 @@ public:
     TimerManager(const TimerManager&) = delete;
     TimerManager& operator=(const TimerManager&) = delete;
 
-    [[deprecated("Pass TimerManager via UIContext instead")]]
+    /// Set the global instance so Get() returns the same instance the main loop ticks.
+    static void SetGlobalInstance(TimerManager* inst) { s_globalInstance = inst; }
+
     static TimerManager& Get() {
+        if (s_globalInstance) return *s_globalInstance;
         static TimerManager instance;
         return instance;
     }
@@ -86,8 +89,11 @@ private:
         bool cancelled;
     };
 
+    static TimerManager* s_globalInstance;
     std::vector<TimerEntry> m_timers;
     int m_nextId = 1;
 };
+
+inline TimerManager* TimerManager::s_globalInstance = nullptr;
 
 } // namespace CarHMI::Core

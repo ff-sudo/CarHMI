@@ -54,6 +54,8 @@ void Application::Run() {
 
     m_animationManager = std::make_unique<Core::AnimationManager>();
     m_timerManager = std::make_unique<Core::TimerManager>();
+    Core::AnimationManager::SetGlobalInstance(m_animationManager.get());
+    Core::TimerManager::SetGlobalInstance(m_timerManager.get());
 
     m_uiContext.Init(&m_renderer, &m_font);
     m_uiContext.SetAnimationManager(m_animationManager.get());
